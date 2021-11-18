@@ -21,6 +21,7 @@ public class Game extends JFrame {
 
     public void order(String str) {}
     public void victory(Player player, BoardContainer board) {}
+    public void callAbility() {}
 }
 
 
