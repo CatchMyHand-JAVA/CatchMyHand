@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;																						                //파일 입출력을 위한 불러오기
 
 public class SignUp extends JFrame {
     private String id;
@@ -38,8 +39,38 @@ public class SignUp extends JFrame {
             }
         });
     }
+    public SignUp(String id, String pwd, String nickname) {												                //생성자를 통해 아이디, 패스워드, 닉네임 받아오기
+        this.id = id;
+        this.pwd = pwd;
+        this.nickname = nickname;
+        File temp = new File("UserInfo.txt");															        //회원 정보 저장을 위한 텍스트 파일 생성
 
-    public void Login(String str) {}
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("UserInfo.txt", true));			//파일입출력을 위한 버퍼 생성
+
+            writer.write(String.format("%s,%s,%s\n",id,pwd,nickname ));									                //입력받은 아이디, 비밀번호, 닉네임을 텍스트파일에 저장
+
+            writer.close();																				                //파일 쓰기 종료
+
+        } catch (IOException e) {																		                //입력된 것이 없을 경우 예외 처리
+            e.printStackTrace();
+        }
+    }
+
+    public void Login(String id, String pwd) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("UserInfo.txt"));			                //파일 입출력을 위한 버퍼 생성
+
+            String line = "";
+            while ((line = reader.readLine()) != null) { 												                //reader에서 라인을 읽은 값이 null일 때(메모장의 마지막 줄일때)
+                String[] temp = line.split(","); 													                //구분자로 "," 를 사용
+                System.out.printf("%s\t%s\t%s\n", temp[0], temp[1], temp[2]);
+            }
+            reader.close();																				                //파일 읽기 종료
+        } catch (Exception e) {																			                //읽어 온 것이 없을 때 예외 처리
+            e.printStackTrace();
+        }
+    }
 }
 
 

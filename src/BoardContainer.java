@@ -4,7 +4,11 @@ public class BoardContainer {
     private String ownPlayer;
     private int booth;
 
-    public BoardContainer() {
+    public BoardContainer(int idx, int passingFee, int booth, String ownPlayer) {
+        this.idx = idx;
+        this.passingFee = passingFee;
+        this.booth = booth;
+        this.ownPlayer = ownPlayer;
     }
 
     public int getIdx() {
@@ -15,14 +19,16 @@ public class BoardContainer {
         return this.ownPlayer;
     }
 
-    public void setOwnPlayer() {
+    public void setOwnPlayer(String ownPlayer) {
+        this.ownPlayer = ownPlayer;
     }
 
-    public void setPassingFee() {
+    public void setPassingFee(int multiple) {
+        passingFee = passingFee * multiple;
     }
 
-    public void setBooth() {
-
+    public void setBooth(int booth) {
+        this.booth = booth;
     }
 
     public void calPassingFee(Player player) {
