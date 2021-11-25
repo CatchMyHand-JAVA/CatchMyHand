@@ -29,5 +29,9 @@ public class BoardContainer {
 
     }
 
+    public void buyBooth(Player player) {}
+    public void updateBooth(Player player) {}
+
+
 
 }

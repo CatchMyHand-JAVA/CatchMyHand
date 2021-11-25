@@ -42,6 +42,9 @@ public class Player {
     public void setTurn(int turn) {         // 턴 설정자
         this.turn = turn;
     }
+    public void setPos(int pos) {         // 턴 설정자
+        this.pos = pos;
+    }
     public boolean isCallAbility() {        // 특수능력을 사용유무
         return true;
     }
@@ -52,6 +55,9 @@ public class Player {
         this.pos = pos;
     }
 
+    public int rollDice() {
+        return 0;
+    }
 
     /* 특수능력 메소드 */
     void callAbility(int abilityNumber)	{}	    // 특수능력 호출 메소드
