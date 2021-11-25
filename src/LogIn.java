@@ -46,7 +46,7 @@ public class LogIn extends JFrame {
 
         btn1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new Game();
+                new GamePage();
                 setVisible(false);
             }
         });

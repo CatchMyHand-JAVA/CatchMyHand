@@ -36,8 +36,8 @@ class StartPage extends JFrame {
     }
 }
 
-public class Game extends JFrame {
-    public Game() {
+class GamePage extends JFrame {
+    public GamePage() {
         setTitle("굴러라! 코리아텍");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
@@ -52,11 +52,15 @@ public class Game extends JFrame {
 
         setSize(1440, 1024);
         setVisible(true);
+    }
+}
+
+public class Game {
+    public Game() {}
 
 //    public void order(String str) {}
 //    public void victory(Player player, BoardContainer board) {}
 //    public void callAbility() {}
-    }
 
     public static void main(String[] args) {
         new StartPage();

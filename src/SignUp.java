@@ -34,7 +34,7 @@ public class SignUp extends JFrame {
 
         btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new Game();
+                new LogIn();
                 setVisible(false); // 창 안보이게 하기
             }
         });
