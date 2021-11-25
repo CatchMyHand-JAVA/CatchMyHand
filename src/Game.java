@@ -17,13 +17,8 @@ public class Game extends JFrame {
 
         setSize(1440,1024);
         setVisible(true);
-    }
 
     public void order(String str) {}
     public void victory(Player player, BoardContainer board) {}
     public void callAbility() {}
 }
-
-
-
-
