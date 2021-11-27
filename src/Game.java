@@ -107,21 +107,21 @@ public class Game {
         
         
         //보드의 인덱스, 통행료 정보를 받아오는 코드
-        BoardContainer[] bc = new BoardContainer[20];															//BoardContainer를 객체 배열로 생성
-        File file = new File("BoardInfo.txt");															        //보드의 위치와 통행료가 저장된 파일 객체
+        BoardContainer[] bc = new BoardContainer[20];						//BoardContainer를 객체 배열로 생성
+        File file = new File("BoardInfo.txt");						//보드의 위치와 통행료가 저장된 파일 객체
         try {
-            Scanner scanner = new Scanner(file);																//파일 내의 정보를 읽어 오기 위한 Scanner 객체
-            int i = 0;																							//객체 배열의 인덱스
-            int[] readInt = {0,0};																				//저장된 정보를 2개씩 읽어 오기 위한 정수 배열
-            while (scanner.hasNextInt()) {																		//더이상 읽을 수 있는 정수가 없을 때까지 반복
-                readInt[0] = scanner.nextInt();																//인덱스 값 읽어오기
-                readInt[1] = scanner.nextInt();																//통행료 값 읽어오기
+            Scanner scanner = new Scanner(file);							//파일 내의 정보를 읽어 오기 위한 Scanner 객체
+            int i = 0;														//객체 배열의 인덱스
+            int[] readInt = {0,0};											//저장된 정보를 2개씩 읽어 오기 위한 정수 배열
+            while (scanner.hasNextInt()) {									//더이상 읽을 수 있는 정수가 없을 때까지 반복
+                readInt[0] = scanner.nextInt();								//인덱스 값 읽어오기
+                readInt[1] = scanner.nextInt();								//통행료 값 읽어오기
                 System.out.printf("%d, %d\n", readInt[0], readInt[1]);
-                bc[i] = new BoardContainer(readInt[0], readInt[1],0 ,"None");					                //BoardContainer 객체 배열 생성자
-                i++;																							//객체 배열의 인덱스 값 증가
+                bc[i] = new BoardContainer(readInt[0], readInt[1],0 ,"None");	//BoardContainer 객체 배열 생성자
+                i++;																			//객체 배열의 인덱스 값 증가
             }
             scanner.close();
-        } catch (Exception e) {																				//입력된 값이 없을 시 예외 처리
+        } catch (Exception e) {												//입력된 값이 없을 시 예외 처리
             e.printStackTrace();
         }
 
