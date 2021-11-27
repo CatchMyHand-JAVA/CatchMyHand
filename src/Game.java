@@ -60,7 +60,14 @@ class GamePage extends JFrame {
 public class Game {
     public Game() {}
 
-//    public void order(String str) {}
+    public static void order(Player player1, Player player2) {                 //선공,후공 정하는 함수
+        int first = (int)(Math.random()*2 + 1);                         //0과 1중 하나를 난수로 생성
+        if(first == 1){                                                 //0이 나오면 플레이어1이 선공(변화 없음), 1이 나오면 플레이어2가 선공
+            String temp = player1.getName();                            //기본적으로 플레이어1이 무조건 먼저 시작하므로 서로의 이름을 바꿈
+            player1.setName(player2.getName());
+            player2.setName(temp);
+        }
+    }
     public void victory(Player player, BoardContainer board[]) {                //임시 승리 조건. 반복문을 사용하지 않고 이 방법 보다 효율적인 방법을 찾아봐야함(라인 독점).
         if(player.getCoin() <= 0){                                              //파산 조건
             return;
@@ -100,7 +107,7 @@ public class Game {
         
         
         //보드의 인덱스, 통행료 정보를 받아오는 코드
-        BoardContainer[] bc = new BoardContainer[20];															//BoarContainer를 객체 배열로 생성
+        BoardContainer[] bc = new BoardContainer[20];															//BoardContainer를 객체 배열로 생성
         File file = new File("BoardInfo.txt");															        //보드의 위치와 통행료가 저장된 파일 객체
         try {
             Scanner scanner = new Scanner(file);																//파일 내의 정보를 읽어 오기 위한 Scanner 객체
@@ -116,6 +123,77 @@ public class Game {
             scanner.close();
         } catch (Exception e) {																				//입력된 값이 없을 시 예외 처리
             e.printStackTrace();
+        }
+
+        //Player 객체 생성 필요
+        Player player1 = new Player();
+        Player player2 = new Player();
+        //기본 구동
+        order(player1, player2);                                //선공 후공
+
+        int pos = 0;                                            //다른 클래스 메소드 반복 호출을 줄이기 위한 변수
+        String name = " ";                                      //다른 클래스 메소드 반복 호출을 줄이기 위한 변수
+
+        while(true){                                                //게임 시작
+            //선공(플레이어1)
+            player1.setTurn(1);                                     //플레이어1의 턴을 1로 설정
+            name = player1.getName();                               //이름 변수에 플레이어1의 이름 저장
+            while(player1.getTurn() != 0){
+                player1.rollDice();
+                pos = player1.getPos();                                 //위치 변수에 플레이어1의 현재 위치 저장
+                if(bc[pos].getOwnPlayer().equals("None")){              //도착한 지역의 소유자가 없을 때
+                    //구매 팝업창 필요
+                    int buy = 0;
+                    if(buy == 1){
+                        bc[pos].buyBoard(player1);
+                        //지역 색 변화(GUI)
+                        //부스 설치(GUI)
+                    }
+                }
+                else if(bc[pos].getOwnPlayer().equals(name)){           //도착한 지역의 소유자가 자신(플레이어1)일 때
+                    //부스 업그레이드 팝업창 필요
+                    int buy = 0;
+                    if(buy == 1) {
+                        bc[pos].updateBooth(player1);
+                        //부스 업그레이드(GUI)
+                    }
+                }
+                else{                                                   //도착한 지역의 소유자가 상대(플레이어2)일 때
+                    bc[pos].calPassingFee(player1, player2);
+                    //통행료 지불 팝업창 필요
+                }
+                player1.setTurn(player1.getTurn()-1);                   //플레이어1의 턴을 1 감소
+            }
+            //후공(플레이어2)
+            player2.setTurn(1);
+            pos = player2.getPos();
+            name = player2.getName();
+            while(player2.getTurn() != 0){
+                player2.rollDice();
+                if(bc[pos].getOwnPlayer().equals("None")){
+                    //구매 팝업창 필요
+                    int buy = 0;
+                    if(buy == 1){
+                        bc[pos].buyBoard(player2);
+                        //지역 색 변화(GUI)
+                        //부스 설치(GUI)
+                    }
+                }
+                else if(bc[pos].getOwnPlayer().equals(name)){
+                    //부스 업그레이드 팝업창 필요
+                    int buy = 0;
+                    if(buy == 1) {
+                        bc[pos].updateBooth(player2);
+                        //부스 업그레이드(GUI)
+                    }
+                }
+                else{
+                    bc[pos].calPassingFee(player1, player2);
+                    //통행료 지불 팝업창 필요
+                }
+                player1.setTurn(player2.getTurn()-1);
+            }
+
         }
 
 
