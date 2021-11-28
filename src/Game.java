@@ -60,14 +60,15 @@ class GamePage extends JFrame {
 public class Game {
     public Game() {}
 
-    public static void order(Player player1, Player player2) {                 //선공,후공 정하는 함수
-        int first = (int)(Math.random()*2 + 1);                         //0과 1중 하나를 난수로 생성
-        if(first == 1){                                                 //0이 나오면 플레이어1이 선공(변화 없음), 1이 나오면 플레이어2가 선공
-            String temp = player1.getName();                            //기본적으로 플레이어1이 무조건 먼저 시작하므로 서로의 이름을 바꿈
+    public static void order(Player player1, Player player2) {          // 선공,후공 정하는 함수
+        int first = (int)(Math.random()*2);                             // 0과 1중 하나를 난수로 생성
+        if(first == 1){                                                 // 0이 나오면 플레이어1이 선공(변화 없음), 1이 나오면 플레이어2가 선공
+            String temp = player1.getName();                            // 기본적으로 플레이어1이 무조건 먼저 시작하므로 서로의 이름을 바꿈
             player1.setName(player2.getName());
             player2.setName(temp);
         }
     }
+
     public void victory(Player player, BoardContainer board[]) {                //임시 승리 조건. 반복문을 사용하지 않고 이 방법 보다 효율적인 방법을 찾아봐야함(라인 독점).
         if(player.getCoin() <= 0){                                              //파산 조건
             return;

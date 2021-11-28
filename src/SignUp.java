@@ -38,7 +38,11 @@ public class SignUp extends JFrame {
                 setVisible(false); // 창 안보이게 하기
             }
         });
+
+
     }
+    
+    // 파일 내에 정보 저장
     public SignUp(String id, String pwd, String nickname) {												                //생성자를 통해 아이디, 패스워드, 닉네임 받아오기
         this.id = id;
         this.pwd = pwd;
@@ -63,11 +67,11 @@ public class SignUp extends JFrame {
 
     public void Login(String id, String pwd) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("UserInfo.txt"));			                //파일 입출력을 위한 버퍼 생성
+            BufferedReader reader = new BufferedReader(new FileReader("UserInfo.txt"));			                // 파일 입출력을 위한 버퍼 생성
 
             String line = "";
-            while ((line = reader.readLine()) != null) { 												                //reader에서 라인을 읽은 값이 null일 때(메모장의 마지막 줄일때)
-                String[] temp = line.split(","); 													                //구분자로 "," 를 사용
+            while ((line = reader.readLine()) != null) { 												                // reader에서 라인을 읽은 값이 null일 때(메모장의 마지막 줄일때)
+                String[] temp = line.split(","); 													                // 구분자로 "," 를 사용
                 System.out.printf("%s\t%s\t%s\n", temp[0], temp[1], temp[2]);
                 if(id.equals(temp[0]) && pwd.equals(temp[1])){          //전달받은 id와 pwd가 일치하면
                     nickname = temp[2];         //nickname에 파일에서 읽어온 이름을 저장
@@ -75,8 +79,8 @@ public class SignUp extends JFrame {
                 }
             }
             System.out.println("아이디와 비밀번호를 확인해주세요");            //파일의 끝까지 탐색했지만 일치하는 경우가 없을 때
-            reader.close();																				                //파일 읽기 종료
-        } catch (Exception e) {																			                //읽어 온 것이 없을 때 예외 처리
+            reader.close();																				                // 파일 읽기 종료
+        } catch (Exception e) {																			                // 읽어 온 것이 없을 때 예외 처리
             e.printStackTrace();
         }
     }
