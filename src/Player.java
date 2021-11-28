@@ -55,6 +55,9 @@ public class Player {
         }
         else return false;
     }
+    public void setCoin(int coin) {
+        this.coin = coin;
+    }
     public void updateCoin(int coin) {      // 재화 설정자
         this.coin += coin;
     }
@@ -100,19 +103,55 @@ public class Player {
                 break;
             case 12:
                 break;
+            default:
+                break;
         }
     }
 
-    void teleport()	{}                          // 1 원하는 위치로 이동, 안에서 getIdx()를 통해 원하는 위치의 인덱스를 가져옴
-    void doubleDice(){}                         // 2 주사위 더블이 나옴, 생성된 난수로 updatePos()를 호출
-    void goToLAB(Player anotherPlayer, int labIdx) {}  // 3 상대방을 랩실에 가둠
-    void restOneTime() {}		                // 4 한턴 쉼
-    void destroyBooth()	{}	                    // 5 선택 지역의 부스 파괴
-    void swapCoin(Player anotherPlayer) {}	    // 6 상대방과 자산을 바꾼다.
-    void stealCoin(Player anotherPlayer)  {}	// 7 상대방 자산의 20%를 가져온다.
-    void buildbooth() {}                        // 8 후에 setBooth()를 호출                 O
-    void payPass() {}		                    // 9 해당 구역 통행료 면제
-    void oneMoreChance() {                      // 10 파산 시 50만원 지급 (life = 2로 시작)   O
+    void teleport(int wantPos)   {
+        int move = 0;
+        if (getPos() < wantPos) {
+            move = wantPos - getPos();
+        }
+        else {
+            move = 24 - getPos() + wantPos;
+        }
+        updatePos(move);
+    }
+    // 2 주사위 더블이 나옴, 생성된 난수로 updatePos()를 호출
+    void doubleDice(){
+        int dice;
+        dice = (int)(Math.random()*6)+ 1;
+        dice *= 2;
+        updatePos(dice);
+    }
+    // 3 상대방을 랩실에 가둠
+    void goToLAB(Player anotherPlayer) {
+        int lab = 6;    // 랩실 인덱스
+        int move = 0;
+        if (anotherPlayer.getPos() < lab) {
+            move = lab - anotherPlayer.getPos();
+        }
+        else {
+            move = 24 - anotherPlayer.getPos() + lab;
+        }
+        anotherPlayer.updatePos(move);
+    }
+    // 4 한턴 쉼
+    void restOneTime() {}
+    // 5 선택 지역의 부스 파괴
+    void destroyBooth()   {}
+    void swapCoin(Player anotherPlayer) {               // 6 상대방과 자산을 바꾼다.                  O
+        int temp = getCoin();
+        setCoin(anotherPlayer.getCoin());
+        anotherPlayer.setCoin(temp);
+    }
+    void stealCoin(Player anotherPlayer)  {             // 7 상대방 자산의 20%를 가져온다.
+        updateCoin((int)(anotherPlayer.getCoin() * 0.2));
+        anotherPlayer.setCoin((int) (anotherPlayer.getCoin() * 0.8));
+    }
+    void payPass() {}		                            // 9 해당 구역 통행료 면제                   O
+    void oneMoreChance() {                              // 10 파산 시 50만원 지급 (life = 2로 시작)   O
         this.setAbilityNumber(0);
         this.updateCoin(500000);
     }

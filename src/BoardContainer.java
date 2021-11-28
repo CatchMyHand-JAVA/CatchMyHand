@@ -67,10 +67,37 @@ public class BoardContainer {
     public void checkBoardOwner(Player player1, Player player2) {       // 소유주 확인
         Scanner scan = new Scanner(System.in);
 
-        if (player1.getName().equals(ownPlayer)) {                      // 내꼬야.
+        if (player1.getAbilityNumber() == 6) {
+            System.out.println("능력을 사용하여 상대방의 자산과 교환하시겠습니까?");
+            if (player1.isCallAbility()) {
+                player1.swapCoin(player2);
+            }
+        }
+
+        if (player1.getAbilityNumber() == 7) {
+            System.out.println("능력을 사용하여 상대방의 자산 20%를 가져오시겠습니까?");
+            if (player1.isCallAbility()) {
+                player1.stealCoin(player2);
+            }
+        }
+
+        if (player1.getName().equals(ownPlayer)) {                      // 나의 지역일 때,
             System.out.println("부스를 업그레이드 하시겠습니까?");
             char user_choice = scan.next().charAt(0);
             if (user_choice == 'Y') updateBooth(player1);
+        }
+
+        else if (ownPlayer.equals("None")) {                            // 비어있는 지역일 때,
+            System.out.println("해당 지역을 구매하시겠습니까?");
+            char user_choice = scan.next().charAt(0);
+            if (player1.getAbilityNumber() == 8) {
+                System.out.println("능력을 사용하여 대형부스를 설치하시겠습니까?");
+                if (player2.isCallAbility()) {
+                    setBooth(3);
+                    buyBoard(player1);
+                }
+            }
+            if (user_choice == 'Y') buyBoard(player1);
         }
 
         else if(player2.getName().equals(ownPlayer)) {                  // 상대방의 지역일 때,
@@ -82,16 +109,8 @@ public class BoardContainer {
             else {calPassingFee(player1, player2);}
         }
 
-        else if (ownPlayer.equals("None")) {
-            System.out.println("해당 지역을 구매하시겠습니까?");
-            char user_choice = scan.next().charAt(0);
-            if (player1.getAbilityNumber() == 8) {
-                System.out.println("능력을 사용하여 대형부스를 설치하시겠습니까부리?");
-                setBooth(2);
-                buyBoard(player1);
-            } else {
-                buyBoard(player1);
-            }
+        else {
+            buyBoard(player1);
         }
     }
 }

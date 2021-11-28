@@ -70,10 +70,12 @@ public class Game {
         }
     }
 
+
     public static void victory(Player player, BoardContainer board[]) {                //임시 승리 조건. 반복문을 사용하지 않고 이 방법 보다 효율적인 방법을 찾아봐야함(라인 독점).
         if(player.getCoin() <= 0){                                              //파산 조건
             if (player.getAbilityNumber() == 10) {
-                player.callAbility(10);
+                player.setAbilityNumber(0);
+                player.updateCoin(500000);
             }
 
             else return;
@@ -112,10 +114,10 @@ public class Game {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         new StartPage();
-        
+
         //로그인(스윙으로 id,pwd 입력받아야함), 플레이어 객체 생성(플레이어 생성자의 매개변수 필요)
         SignUp signup = new SignUp();
-        
+
         // 지정 후 삭제 필요
         String id = " ", pwd = " ";         //임시 변수
         String name1 = " ", name2 = " ";    // 임시
@@ -125,27 +127,27 @@ public class Game {
         Player player1 = new Player(name1);          //플레이어1 객체 생성
         Player player2 = new Player(name2);          //플레이어2 객체 생성
 
-        
+
         //보드의 인덱스, 통행료 정보를 받아오는 코드
-        BoardContainer[] bc = new BoardContainer[24];						//BoardContainer 를 객체 배열로 생성
-        File file = new File("BoardInfo.txt");						//보드의 위치와 통행료가 저장된 파일 객체
+        BoardContainer[] bc = new BoardContainer[24];                  //BoardContainer 를 객체 배열로 생성
+        File file = new File("BoardInfo.txt");                  //보드의 위치와 통행료가 저장된 파일 객체
         try {
-            Scanner scanner = new Scanner(file);							//파일 내의 정보를 읽어 오기 위한 Scanner 객체
+            Scanner scanner = new Scanner(file);                     //파일 내의 정보를 읽어 오기 위한 Scanner 객체
             int idx = 0, price = 0;                                         //저장된 정보를 읽어오기 위한 정수형 변수 2개
             String own = " ";                                               //지역의 소유자 읽어오기 위한 변수
-            while (scanner.hasNextInt()) {									//더이상 읽을 수 있는 정수가 없을 때까지 반복
-                idx = scanner.nextInt();								//인덱스 값 읽어오기
-                price = scanner.nextInt();								//통행료 값 읽어오기
+            while (scanner.hasNextInt()) {                           //더이상 읽을 수 있는 정수가 없을 때까지 반복
+                idx = scanner.nextInt();                        //인덱스 값 읽어오기
+                price = scanner.nextInt();                        //통행료 값 읽어오기
                 own = scanner.next();
                 System.out.printf("%d, %d, %s\n", idx, price, own);
-                bc[idx] = new BoardContainer(idx, price,0 ,own);	//BoardContainer 객체 배열 생성자
+                bc[idx] = new BoardContainer(idx, price,0 ,own);   //BoardContainer 객체 배열 생성자
             }
             scanner.close();
-        } catch (Exception e) {												//입력된 값이 없을 시 예외 처리
+        } catch (Exception e) {                                    //입력된 값이 없을 시 예외 처리
             e.printStackTrace();
         }
-        
-        
+
+
         //게임 start
         order(player1, player2);                                //선공 후공 설정
 
@@ -158,13 +160,41 @@ public class Game {
             while(player1.getTurn() != 0){
                 int dice = 0;
                 if (player1.getAbilityNumber() >= 1 && player1.getAbilityNumber() <= 5) {
-                    if (player1.isCallAbility()) player1.callAbility(player1.getAbilityNumber());
-                    dice = player1.rollDice();
+                    if (player1.isCallAbility()) {
+                        if (player1.getAbilityNumber() == 1) {
+                            System.out.println("원하는 위치 받아야 함");
+                            int want = scan.nextInt();
+                            player1.teleport(want);
+                        }
+
+                        else if (player1.getAbilityNumber() == 2) {
+                            player1.doubleDice();
+                        }
+
+                        else if (player1.getAbilityNumber() == 3) {
+                            player1.goToLAB(player2);
+                            dice = player1.rollDice();
+                        }
+                        else if (player1.getAbilityNumber() == 4) {
+                            player1.setTurn(player2.getTurn()-1);
+                            break;
+                        }
+                        else if (player1.getAbilityNumber() == 5) {
+                            System.out.println("원하는 위치 받아야 함");
+                            int want = scan.nextInt();
+                            bc[want].setBooth(0);
+                            dice = player1.rollDice();
+                        }
+                        player1.setAbilityNumber(0);
+                    }
                 }
                 else if (player1.getAbilityNumber() != 10) {
                     dice = player1.rollDice();
-                    if (player1.isCallAbility()) player1.callAbility(player1.getAbilityNumber());
+                    if (player1.isCallAbility()){
+                        player1.setAbilityNumber(0);
+                    }
                 }
+
                 else dice = player1.rollDice();
 
                 player1.updatePos(dice);
@@ -199,12 +229,39 @@ public class Game {
             while(player2.getTurn() != 0){
                 int dice = 0;
                 if (player2.getAbilityNumber() >= 1 && player2.getAbilityNumber() <= 5) {
-                    if (player2.isCallAbility()) player2.callAbility(player2.getAbilityNumber());
-                    dice = player2.rollDice();
+                    if (player2.isCallAbility()) {
+                        if (player2.getAbilityNumber() == 1) {
+                            System.out.println("원하는 위치 받아야 함");
+                            int want = scan.nextInt();
+                            player2.teleport(want);
+                        }
+
+                        else if (player2.getAbilityNumber() == 2) {
+                            player2.doubleDice();
+                        }
+
+                        else if (player2.getAbilityNumber() == 3) {
+                            player2.goToLAB(player1);
+                            dice = player2.rollDice();
+                        }
+                        else if (player2.getAbilityNumber() == 4) {
+                            player2.setTurn(player2.getTurn()-1);
+                            break;
+                        }
+                        else if (player2.getAbilityNumber() == 5) {
+                            System.out.println("원하는 위치 받아야 함");
+                            int want = scan.nextInt();
+                            bc[want].setBooth(0);
+                            dice = player2.rollDice();
+                        }
+                        player2.setAbilityNumber(0);
+                    }
                 }
                 else if (player2.getAbilityNumber() != 10) {
                     dice = player2.rollDice();
-                    if (player2.isCallAbility()) player2.callAbility(player2.getAbilityNumber());
+                    if (player2.isCallAbility()){
+                        player2.setAbilityNumber(0);
+                    }
                 }
                 else dice = player2.rollDice();
 
@@ -234,25 +291,3 @@ public class Game {
         }
     }
 }
-
-//                if(bc[player1.getPos()].getOwnPlayer().equals("None")){              //도착한 지역의 소유자가 없을 때
-//                    //구매 팝업창 필요
-//                    int buy = 0;
-//                    if(buy == 1){
-//                        bc[pos].buyBoard(player1);
-//                        //지역 색 변화(GUI)
-//                        //부스 설치(GUI)
-//                    }
-//                }
-//                else if(bc[pos].getOwnPlayer().equals(name)){           //도착한 지역의 소유자가 자신(플레이어1)일 때
-//                    //부스 업그레이드 팝업창 필요
-//                    int buy = 0;
-//                    if(buy == 1) {
-//                        bc[pos].updateBooth(player1);
-//                        //부스 업그레이드(GUI)
-//                    }
-//                }
-//                else if(bc[pos].getOwnPlayer().equals(player2.getName())){                                                   //도착한 지역의 소유자가 상대(플레이어2)일 때
-//                    bc[pos].calPassingFee(player1, player2);
-//                    //통행료 지불 팝업창 필요
-//                }
