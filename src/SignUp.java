@@ -57,6 +57,10 @@ public class SignUp extends JFrame {
         }
     }
 
+    public String getNickname(){            //닉네임을 반환하는 함수
+        return nickname;
+    }
+
     public void Login(String id, String pwd) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("UserInfo.txt"));			                //파일 입출력을 위한 버퍼 생성
@@ -65,7 +69,12 @@ public class SignUp extends JFrame {
             while ((line = reader.readLine()) != null) { 												                //reader에서 라인을 읽은 값이 null일 때(메모장의 마지막 줄일때)
                 String[] temp = line.split(","); 													                //구분자로 "," 를 사용
                 System.out.printf("%s\t%s\t%s\n", temp[0], temp[1], temp[2]);
+                if(id.equals(temp[0]) && pwd.equals(temp[1])){          //전달받은 id와 pwd가 일치하면
+                    nickname = temp[2];         //nickname에 파일에서 읽어온 이름을 저장
+                    break;          //while문 멈춤
+                }
             }
+            System.out.println("아이디와 비밀번호를 확인해주세요");            //파일의 끝까지 탐색했지만 일치하는 경우가 없을 때
             reader.close();																				                //파일 읽기 종료
         } catch (Exception e) {																			                //읽어 온 것이 없을 때 예외 처리
             e.printStackTrace();

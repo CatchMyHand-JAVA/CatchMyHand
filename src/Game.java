@@ -105,6 +105,19 @@ public class Game {
     public static void main(String[] args) {
         new StartPage();
         
+        //로그인(스윙으로 id,pwd 입력받아야함), 플레이어 객체 생성(플레이어 생성자의 매개변수 필요)
+        SignUp signup = new SignUp();
+        signup = new SignUp();
+        
+        String id = " ", pwd = " ";         //임시 변수
+        
+        signup.Login(id,pwd);           //플레이어1 로그인
+        Player player1 = new Player();          //플레이어1 객체 생성
+        
+        signup.Login(id,pwd);           //플레이어2 로그인
+        Player player2 = new Player();          //플레이어2 객체 생성
+        
+        
         
         //보드의 인덱스, 통행료 정보를 받아오는 코드
         BoardContainer[] bc = new BoardContainer[20];						//BoardContainer를 객체 배열로 생성
@@ -112,22 +125,22 @@ public class Game {
         try {
             Scanner scanner = new Scanner(file);							//파일 내의 정보를 읽어 오기 위한 Scanner 객체
             int i = 0;														//객체 배열의 인덱스
-            int[] readInt = {0,0};											//저장된 정보를 2개씩 읽어 오기 위한 정수 배열
+            int idx = 0, price = 0;                                         //저장된 정보를 읽어오기 위한 정수형 변수 2개
+            String own = " ";                                               //지역의 소유자 읽어오기 위한 변수
             while (scanner.hasNextInt()) {									//더이상 읽을 수 있는 정수가 없을 때까지 반복
-                readInt[0] = scanner.nextInt();								//인덱스 값 읽어오기
-                readInt[1] = scanner.nextInt();								//통행료 값 읽어오기
-                System.out.printf("%d, %d\n", readInt[0], readInt[1]);
-                bc[i] = new BoardContainer(readInt[0], readInt[1],0 ,"None");	//BoardContainer 객체 배열 생성자
+                idx = scanner.nextInt();								//인덱스 값 읽어오기
+                price = scanner.nextInt();								//통행료 값 읽어오기
+                own = scanner.next();
+                System.out.printf("%d, %d, %s\n", idx, price, own);
+                bc[i] = new BoardContainer(idx, price,0 ,own);	//BoardContainer 객체 배열 생성자
                 i++;																			//객체 배열의 인덱스 값 증가
             }
             scanner.close();
         } catch (Exception e) {												//입력된 값이 없을 시 예외 처리
             e.printStackTrace();
         }
-
-        //Player 객체 생성 필요
-        Player player1 = new Player();
-        Player player2 = new Player();
+        
+        
         //기본 구동
         order(player1, player2);                                //선공 후공
 
@@ -136,7 +149,7 @@ public class Game {
 
         while(true){                                                //게임 시작
             //선공(플레이어1)
-            player1.setTurn(1);                                     //플레이어1의 턴을 1로 설정
+            player1.setTurn(player1.getTurn()+1);                                     //플레이어1의 턴을 1로 설정
             name = player1.getName();                               //이름 변수에 플레이어1의 이름 저장
             while(player1.getTurn() != 0){
                 player1.rollDice();
@@ -158,14 +171,28 @@ public class Game {
                         //부스 업그레이드(GUI)
                     }
                 }
-                else{                                                   //도착한 지역의 소유자가 상대(플레이어2)일 때
+                else if(bc[pos].getOwnPlayer().equals(player2.getName())){                                                   //도착한 지역의 소유자가 상대(플레이어2)일 때
                     bc[pos].calPassingFee(player1, player2);
                     //통행료 지불 팝업창 필요
+                }
+                else{           //특수칸 도착시
+                    if(pos == 0){           //출발점
+
+                    }
+                    else if(pos == 6){          //랩실
+                        player1.setTurn(0);
+                    }
+                    else if(pos == 12){         //주류 판매
+
+                    }
+                    else if(pos == 18){         //전동킥보드
+
+                    }
                 }
                 player1.setTurn(player1.getTurn()-1);                   //플레이어1의 턴을 1 감소
             }
             //후공(플레이어2)
-            player2.setTurn(1);
+            player2.setTurn(player1.getTurn()+1);
             pos = player2.getPos();
             name = player2.getName();
             while(player2.getTurn() != 0){
@@ -187,11 +214,26 @@ public class Game {
                         //부스 업그레이드(GUI)
                     }
                 }
-                else{
+                else if(bc[pos].getOwnPlayer().equals(player1.getName())){
                     bc[pos].calPassingFee(player1, player2);
                     //통행료 지불 팝업창 필요
                 }
-                player1.setTurn(player2.getTurn()-1);
+                //특수칸 도착 시
+                else{
+                    if(pos == 0){           //출발점
+
+                    }
+                    else if(pos == 6){          //랩실
+                        player2.setTurn(0);
+                    }
+                    else if(pos == 12){         //주류 판매
+
+                    }
+                    else if(pos == 18){         //전동킥보드
+
+                    }
+                }
+                player2.setTurn(player2.getTurn()-1);
             }
 
         }
