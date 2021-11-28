@@ -40,17 +40,66 @@ class StartPage extends JFrame {
 
 class GamePage extends JFrame {
     public GamePage() {
+        setSize(1440, 1024);
+        //jp.setPreferredSize(new Dimension(1440, 1024));
+        JButton[] btn = new JButton[24];
+        JButton diceBtn = new JButton();
+        JPanel jp = new JPanel();
+        jp.setLayout(null);
+
+        diceBtn.setContentAreaFilled(false);
+        diceBtn.setOpaque(false);
+        diceBtn.setBorderPainted(false);
+        diceBtn.setBounds(1061, 556, 169, 60);
+        add(diceBtn);
+
+        for(int i = 0; i<24; i++) {
+            btn[i] = new JButton();
+            btn[i].setContentAreaFilled(false);
+            btn[i].setOpaque(false);
+            btn[i].setBorderPainted(false);
+            add(btn[i]);
+        }
+        btn[0].setBounds(730, 797, 74, 74);
+        btn[1].setBounds(557, 797, 74, 74);
+        btn[2].setBounds(480, 797, 74, 74);
+        btn[3].setBounds(404, 797, 74, 74);
+        btn[4].setBounds(327, 797, 74, 74);
+        btn[5].setBounds(251, 797, 74, 74);
+        btn[6].setBounds(77, 797, 74, 74);
+        btn[7].setBounds(77, 624, 74, 74);
+        btn[8].setBounds(77, 547, 74, 74);
+        btn[9].setBounds(77, 471, 74, 74);
+        btn[10].setBounds(77, 394, 74, 74);
+        btn[11].setBounds(77, 318, 74, 74);
+        btn[12].setBounds(77, 146, 74, 74);
+        btn[13].setBounds(251, 147, 74, 74);
+        btn[14].setBounds(327, 147, 74, 74);
+        btn[15].setBounds(404, 147, 74, 74);
+        btn[16].setBounds(480, 147, 74, 74);
+        btn[17].setBounds(557, 147, 74, 74);
+        btn[18].setBounds(731, 147, 74, 74);
+        btn[19].setBounds(731, 318, 74, 74);
+        btn[20].setBounds(731, 394, 74, 74);
+        btn[21].setBounds(731,471 , 74, 74);
+        btn[22].setBounds(731, 547, 74, 74);
+        btn[23].setBounds(731, 624, 74, 74);
+        add(jp);
+        setVisible(true);
+
+
         setTitle("굴러라! 코리아텍");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
         c.setLayout(null);
 
-        ImageIcon img = new ImageIcon("images/gamestart.jpg");
+        ImageIcon img = new ImageIcon("images/gamestart.png");
         JLabel imageLabel = new JLabel(img);
 
         imageLabel.setSize(1440, 1024);
         imageLabel.setLocation(0, 0);
-        c.add(imageLabel);
+        add(imageLabel);
+        add(jp);
 
         setSize(1440, 1024);
         setVisible(true);
@@ -118,7 +167,7 @@ public class Game {
         // 지정 후 삭제 필요
         String name1 = " ", name2 = " ";    // 임시
 
-        //signup.Login(id,pwd);           //플레이어1 로그인
+        //signup.Login(id,pwd) ;           //플레이어1 로그인
         Player player1 = new Player(name1);          //플레이어1 객체 생성
         Player player2 = new Player(name2);          //플레이어2 객체 생성
 

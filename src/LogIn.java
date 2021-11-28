@@ -83,13 +83,15 @@ public class LogIn extends JFrame implements ActionListener {
             BufferedReader reader = null;
             try {
                 reader = new BufferedReader(new FileReader("UserInfo.txt"));
-                while( (str = reader.readLine()) != null) {
+                while(true) {
+                    str = reader.readLine();
                     String[] info = str.split("/");
                     //입력이 완료 → 처리
                     if (id.equalsIgnoreCase(info[0])) { //equals의 사용 예시
                         if (pwd.equals(info[1])) {
                             JOptionPane.showMessageDialog(this, id + "님 로그인 되었습니다.");
                             new GamePage();
+                            setVisible(false);
 //                            new Game();
                             break;
                         } else {
@@ -99,10 +101,13 @@ public class LogIn extends JFrame implements ActionListener {
                         }
 
                     } else {
-                        JOptionPane.showMessageDialog(this, "존재하지 않는 ID입니다.");
-                        tf.setText("");
-                        pf.setText("");
-                        tf.requestFocus();
+                        if (str == null) {
+                            JOptionPane.showMessageDialog(this, "존재하지 않는 ID입니다.");
+                            tf.setText("");
+                            pf.setText("");
+                            tf.requestFocus();
+                            break;
+                        }
                     }
                 }
                 reader.close();
