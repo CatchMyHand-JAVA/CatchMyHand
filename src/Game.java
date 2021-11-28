@@ -57,6 +57,9 @@ class GamePage extends JFrame {
     }
 }
 
+
+
+
 public class Game {
     public Game() {}
 
@@ -102,20 +105,18 @@ public class Game {
         }
     }
 //    public void callAbility() {}
+// 회원가입 플레이어 이름 설정에서 2개의 닉네임 받기
 
     public static void main(String[] args) {
         new StartPage();
         
         //로그인(스윙으로 id,pwd 입력받아야함), 플레이어 객체 생성(플레이어 생성자의 매개변수 필요)
         SignUp signup = new SignUp();
-        signup = new SignUp();
         
         String id = " ", pwd = " ";         //임시 변수
         
         signup.Login(id,pwd);           //플레이어1 로그인
         Player player1 = new Player();          //플레이어1 객체 생성
-        
-        signup.Login(id,pwd);           //플레이어2 로그인
         Player player2 = new Player();          //플레이어2 객체 생성
         
         
@@ -125,7 +126,6 @@ public class Game {
         File file = new File("BoardInfo.txt");						//보드의 위치와 통행료가 저장된 파일 객체
         try {
             Scanner scanner = new Scanner(file);							//파일 내의 정보를 읽어 오기 위한 Scanner 객체
-            int i = 0;														//객체 배열의 인덱스
             int idx = 0, price = 0;                                         //저장된 정보를 읽어오기 위한 정수형 변수 2개
             String own = " ";                                               //지역의 소유자 읽어오기 위한 변수
             while (scanner.hasNextInt()) {									//더이상 읽을 수 있는 정수가 없을 때까지 반복
@@ -133,8 +133,7 @@ public class Game {
                 price = scanner.nextInt();								//통행료 값 읽어오기
                 own = scanner.next();
                 System.out.printf("%d, %d, %s\n", idx, price, own);
-                bc[i] = new BoardContainer(idx, price,0 ,own);	//BoardContainer 객체 배열 생성자
-                i++;																			//객체 배열의 인덱스 값 증가
+                bc[idx] = new BoardContainer(idx, price,0 ,own);	//BoardContainer 객체 배열 생성자
             }
             scanner.close();
         } catch (Exception e) {												//입력된 값이 없을 시 예외 처리
@@ -142,20 +141,20 @@ public class Game {
         }
         
         
-        //기본 구동
-        order(player1, player2);                                //선공 후공
+        //게임 start
+        order(player1, player2);                                //선공 후공 설정
 
         int pos = 0;                                            //다른 클래스 메소드 반복 호출을 줄이기 위한 변수
         String name = " ";                                      //다른 클래스 메소드 반복 호출을 줄이기 위한 변수
 
         while(true){                                                //게임 시작
             //선공(플레이어1)
-            player1.setTurn(player1.getTurn()+1);                                     //플레이어1의 턴을 1로 설정
+            player1.setTurn(player1.getTurn()+1);                   //플레이어1의 턴을 1로 설정
             name = player1.getName();                               //이름 변수에 플레이어1의 이름 저장
             while(player1.getTurn() != 0){
-                player1.rollDice();
-                pos = player1.getPos();                                 //위치 변수에 플레이어1의 현재 위치 저장
-                if(bc[pos].getOwnPlayer().equals("None")){              //도착한 지역의 소유자가 없을 때
+                int dice = player1.rollDice();
+                player1.updatePos(dice);
+                if(bc[player1.getPos()].getOwnPlayer().equals("None")){              //도착한 지역의 소유자가 없을 때
                     //구매 팝업창 필요
                     int buy = 0;
                     if(buy == 1){
@@ -192,6 +191,8 @@ public class Game {
                 }
                 player1.setTurn(player1.getTurn()-1);                   //플레이어1의 턴을 1 감소
             }
+
+
             //후공(플레이어2)
             player2.setTurn(player1.getTurn()+1);
             pos = player2.getPos();

@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class BoardContainer {
     private int idx;
     private int passingFee;
@@ -47,25 +49,51 @@ public class BoardContainer {
         }
     }
     public void buyBoard(Player player) {   //처음 도착 시 부스를 설치하는 함수
-        int buy = 0;                        //임시 변수. 스윙으로 팝업창 제작 시 확인 버튼을 누르면 true 로 변경되게 하면 됨.
-        if(buy == 1) {
-            ownPlayer = player.getName();
+        ownPlayer = player.getName();
+        player.updateCoin(-passingFee);
+        booth++;
+
+    }
+    public void updateBooth(Player player) {    //부스가 이미 설치되어 있을 때 부스를 업그레이드 하는 함수
+        if(booth == 1 || booth == 2) {          //이미 설치된 부스가 소형, 중형일 경우 부스를 업그레이드(부스 변수 1 증가)
             player.updateCoin(-passingFee);
             booth++;
         }
-    }
-    public void updateBooth(Player player) {    //부스가 이미 설치되어 있을 때 부스를 업그레이드 하는 함수
-        int buy = 0;
-        if(buy == 1) {
-            if(booth == 1 || booth == 2) {          //이미 설치된 부스가 소형, 중형일 경우 부스를 업그레이드(부스 변수 1 증가)
-                player.updateCoin(-passingFee);
-                booth++;
-            }
-            else if(booth == 3) {                   //이미 설치된 부스가 대형일 경우 부스 업그레이드를 안함
-                return;
-            }
+        else if(booth == 3) {                   //이미 설치된 부스가 대형일 경우 부스 업그레이드를 안함
+            return;
         }
     }
 
+    public void checkBoardOwner(Player player1, Player player2) {       // 소유주 확인
+        Scanner scan = new Scanner(System.in);
+
+        if (player1.getName().equals(ownPlayer)) {                      // 내꼬야.
+            System.out.println("부스를 업그레이드 하시겠습니까?");
+            char user_choice = scan.next().charAt(0);
+            if (user_choice == 'Y') updateBooth(player1);
+        }
+
+        else if(player2.getName().equals(ownPlayer)) {                  // 상대방의 지역일 때,
+            System.out.println("통행료를 지불합니다.");
+            if (player1.getAbilityNumber() == 9){
+                System.out.println("통행료 면제 능력을 사용하시겠습니까부리?");
+                if (!player1.isCallAbility()) { calPassingFee(player1, player2); }
+            }
+            else {calPassingFee(player1, player2);}
+        }
+
+        else if (ownPlayer.equals("None")) {
+            System.out.println("해당 지역을 구매하시겠습니까?");
+            char user_choice = scan.next().charAt(0);
+            if (player1.getAbilityNumber() == 8) {
+                System.out.println("능력을 사용하여 대형부스를 설치하시겠습니까부리?");
+                player1.payPass();
+            }
+        }
+
+        else {                                                          // 특수칸 도착 시,
+
+        }
+    }
 
 }

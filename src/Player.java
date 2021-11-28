@@ -1,4 +1,8 @@
+import java.util.Scanner;
+
 public class Player {
+
+
     // 기본 필드
     private String name;
     private int life;
@@ -46,7 +50,14 @@ public class Player {
         this.pos = pos;
     }
     public boolean isCallAbility() {        // 특수능력을 사용유무
-        return true;
+        // Swing 구현 필수 (팝업 plz)
+        Scanner scan = new Scanner(System.in);
+        char user_choice = scan.next().charAt(0);
+        if (user_choice == 'Y') {
+            abilityNumber = 0;
+            return true;
+        }
+        else return false;
     }
     public void updateCoin(int coin) {      // 재화 설정자
         this.coin = coin;
