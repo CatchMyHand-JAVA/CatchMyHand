@@ -22,6 +22,14 @@ public class BoardContainer {
     public void setOwnPlayer(String ownPlayer) {
         this.ownPlayer = ownPlayer;
     }
+    public void setPassingFee(int booth) {          //부스 업그레이드 통행료
+        if(booth != 0) {
+            if(booth == 1) passingFee *= 1.1;
+            else if(booth == 2) passingFee *= 1.5;
+            else if(booth == 3) passingFee *= 2;
+        }
+        else passingFee *= 4;
+    }
 
     public void setBooth(int booth_num) {               //특수능력 관련 부스를 제어하는 함수
         if(booth_num != 0)  booth = booth_num;

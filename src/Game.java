@@ -120,7 +120,7 @@ public class Game {
         
         
         //보드의 인덱스, 통행료 정보를 받아오는 코드
-        BoardContainer[] bc = new BoardContainer[20];						//BoardContainer를 객체 배열로 생성
+        BoardContainer[] bc = new BoardContainer[24];						//BoardContainer 를 객체 배열로 생성
         File file = new File("BoardInfo.txt");						//보드의 위치와 통행료가 저장된 파일 객체
         try {
             Scanner scanner = new Scanner(file);							//파일 내의 정보를 읽어 오기 위한 Scanner 객체
