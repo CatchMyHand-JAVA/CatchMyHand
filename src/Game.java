@@ -103,6 +103,17 @@ class GamePage extends JFrame {
 
         setSize(1440, 1024);
         setVisible(true);
+
+        diceBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int dice1 = (int)(Math.random()*6) + 1;
+                int dice2 = (int)(Math.random()*6) + 1;
+                String str1 = Integer.toString(dice1);
+                String str2 = Integer.toString(dice2);
+                String str = "주사위1 : " + str1 + ", 주사위2 : " + str2;
+                JOptionPane.showMessageDialog(null, str);
+            }
+        });
     }
 }
 
@@ -157,6 +168,7 @@ public class Game {
                                 return;
         }
     }
+
 //    public void callAbility() {}
 // 회원가입 플레이어 이름 설정에서 2개의 닉네임 받기
 
@@ -164,7 +176,6 @@ public class Game {
         Scanner scan = new Scanner(System.in);
         new StartPage();
 
-        // 지정 후 삭제 필요
         String name1 = " ", name2 = " ";    // 임시
 
         //signup.Login(id,pwd) ;           //플레이어1 로그인

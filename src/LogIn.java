@@ -12,9 +12,6 @@ public class LogIn extends JFrame implements ActionListener {
     JPasswordField pf;
     JButton loginButton, signUpButton;
 
-//    final String ID="admin"; //원래 DB에 있어야함. 임시로 부여
-//    final String PWD="1234";
-
     public LogIn() {
         setTitle("굴러라! 코리아텍");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,7 +87,7 @@ public class LogIn extends JFrame implements ActionListener {
                     if (id.equalsIgnoreCase(info[0])) { //equals의 사용 예시
                         if (pwd.equals(info[1])) {
                             JOptionPane.showMessageDialog(this, id + "님 로그인 되었습니다.");
-                            new GamePage();
+                            GamePage page = new GamePage();
                             setVisible(false);
 //                            new Game();
                             break;
