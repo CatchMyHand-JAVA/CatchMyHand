@@ -38,8 +38,6 @@ public class SignUp extends JFrame {
                 setVisible(false); // 창 안보이게 하기
             }
         });
-
-
     }
     
     // 파일 내에 정보 저장

@@ -87,13 +87,11 @@ public class BoardContainer {
             char user_choice = scan.next().charAt(0);
             if (player1.getAbilityNumber() == 8) {
                 System.out.println("능력을 사용하여 대형부스를 설치하시겠습니까부리?");
-                player1.payPass();
+                setBooth(2);
+                buyBoard(player1);
+            } else {
+                buyBoard(player1);
             }
         }
-
-        else {                                                          // 특수칸 도착 시,
-
-        }
     }
-
 }

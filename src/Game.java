@@ -58,8 +58,6 @@ class GamePage extends JFrame {
 }
 
 
-
-
 public class Game {
     public Game() {}
 
@@ -72,9 +70,13 @@ public class Game {
         }
     }
 
-    public void victory(Player player, BoardContainer board[]) {                //임시 승리 조건. 반복문을 사용하지 않고 이 방법 보다 효율적인 방법을 찾아봐야함(라인 독점).
+    public static void victory(Player player, BoardContainer board[]) {                //임시 승리 조건. 반복문을 사용하지 않고 이 방법 보다 효율적인 방법을 찾아봐야함(라인 독점).
         if(player.getCoin() <= 0){                                              //파산 조건
-            return;
+            if (player.getAbilityNumber() == 10) {
+                player.callAbility(10);
+            }
+
+            else return;
         }
         //라인 독점 조건
         else{
@@ -108,18 +110,21 @@ public class Game {
 // 회원가입 플레이어 이름 설정에서 2개의 닉네임 받기
 
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
         new StartPage();
         
         //로그인(스윙으로 id,pwd 입력받아야함), 플레이어 객체 생성(플레이어 생성자의 매개변수 필요)
         SignUp signup = new SignUp();
         
+        // 지정 후 삭제 필요
         String id = " ", pwd = " ";         //임시 변수
-        
+        String name1 = " ", name2 = " ";    // 임시
+
+
         signup.Login(id,pwd);           //플레이어1 로그인
-        Player player1 = new Player();          //플레이어1 객체 생성
-        Player player2 = new Player();          //플레이어2 객체 생성
-        
-        
+        Player player1 = new Player(name1);          //플레이어1 객체 생성
+        Player player2 = new Player(name2);          //플레이어2 객체 생성
+
         
         //보드의 인덱스, 통행료 정보를 받아오는 코드
         BoardContainer[] bc = new BoardContainer[24];						//BoardContainer 를 객체 배열로 생성
@@ -150,97 +155,104 @@ public class Game {
         while(true){                                                //게임 시작
             //선공(플레이어1)
             player1.setTurn(player1.getTurn()+1);                   //플레이어1의 턴을 1로 설정
-            name = player1.getName();                               //이름 변수에 플레이어1의 이름 저장
             while(player1.getTurn() != 0){
-                int dice = player1.rollDice();
+                int dice = 0;
+                if (player1.getAbilityNumber() >= 1 && player1.getAbilityNumber() <= 5) {
+                    if (player1.isCallAbility()) player1.callAbility(player1.getAbilityNumber());
+                    dice = player1.rollDice();
+                }
+                else if (player1.getAbilityNumber() != 10) {
+                    dice = player1.rollDice();
+                    if (player1.isCallAbility()) player1.callAbility(player1.getAbilityNumber());
+                }
+                else dice = player1.rollDice();
+
                 player1.updatePos(dice);
-                if(bc[player1.getPos()].getOwnPlayer().equals("None")){              //도착한 지역의 소유자가 없을 때
-                    //구매 팝업창 필요
-                    int buy = 0;
-                    if(buy == 1){
-                        bc[pos].buyBoard(player1);
-                        //지역 색 변화(GUI)
-                        //부스 설치(GUI)
-                    }
-                }
-                else if(bc[pos].getOwnPlayer().equals(name)){           //도착한 지역의 소유자가 자신(플레이어1)일 때
-                    //부스 업그레이드 팝업창 필요
-                    int buy = 0;
-                    if(buy == 1) {
-                        bc[pos].updateBooth(player1);
-                        //부스 업그레이드(GUI)
-                    }
-                }
-                else if(bc[pos].getOwnPlayer().equals(player2.getName())){                                                   //도착한 지역의 소유자가 상대(플레이어2)일 때
-                    bc[pos].calPassingFee(player1, player2);
-                    //통행료 지불 팝업창 필요
-                }
-                else{           //특수칸 도착시
-                    if(pos == 0){           //출발점
 
-                    }
-                    else if(pos == 6){          //랩실
-                        player1.setTurn(0);
-                    }
+                if(pos == 0 || pos == 6 || pos == 12 || pos == 18 ) {  // 특수칸 도착 시,
+                    if(pos == 0){  player1.updateCoin(300000); }    // 출발점
+
+                    else if(pos == 6) { player1.setTurn(0); }       // 랩실
+
                     else if(pos == 12){         //주류 판매
-
+                        System.out.println("원하는 위치 받아야 함");
+                        int want = scan.nextInt();
+                        bc[want].setPassingFee(3);
                     }
-                    else if(pos == 18){         //전동킥보드
-
+                    else if(pos == 18){         //전동킥보드 ( 한 턴 안쉬고 바로 선택 후 이동 )
+                        System.out.println("원하는 위치 받아야 함");
+                        int want = scan.nextInt();
+                        player1.updatePos(want);    // 한 칸씩 할지, 순간이동으로 할지 ( 구현이 가능한지 모르겠음 )
+                        bc[want].checkBoardOwner(player1, player2);
                     }
                 }
+                else
+                    bc[pos].checkBoardOwner(player1, player2);
                 player1.setTurn(player1.getTurn()-1);                   //플레이어1의 턴을 1 감소
             }
 
+            victory(player1, bc);
 
             //후공(플레이어2)
-            player2.setTurn(player1.getTurn()+1);
+            player2.setTurn(player2.getTurn()+1);
             pos = player2.getPos();
-            name = player2.getName();
             while(player2.getTurn() != 0){
-                player2.rollDice();
-                if(bc[pos].getOwnPlayer().equals("None")){
-                    //구매 팝업창 필요
-                    int buy = 0;
-                    if(buy == 1){
-                        bc[pos].buyBoard(player2);
-                        //지역 색 변화(GUI)
-                        //부스 설치(GUI)
-                    }
+                int dice = 0;
+                if (player2.getAbilityNumber() >= 1 && player2.getAbilityNumber() <= 5) {
+                    if (player2.isCallAbility()) player2.callAbility(player2.getAbilityNumber());
+                    dice = player2.rollDice();
                 }
-                else if(bc[pos].getOwnPlayer().equals(name)){
-                    //부스 업그레이드 팝업창 필요
-                    int buy = 0;
-                    if(buy == 1) {
-                        bc[pos].updateBooth(player2);
-                        //부스 업그레이드(GUI)
-                    }
+                else if (player2.getAbilityNumber() != 10) {
+                    dice = player2.rollDice();
+                    if (player2.isCallAbility()) player2.callAbility(player2.getAbilityNumber());
                 }
-                else if(bc[pos].getOwnPlayer().equals(player1.getName())){
-                    bc[pos].calPassingFee(player1, player2);
-                    //통행료 지불 팝업창 필요
-                }
-                //특수칸 도착 시
-                else{
-                    if(pos == 0){           //출발점
+                else dice = player2.rollDice();
 
-                    }
-                    else if(pos == 6){          //랩실
-                        player2.setTurn(0);
-                    }
+                if (pos == 0 || pos == 6 || pos == 12 || pos == 18 ) {     // 특수칸 도착 시,
+                    if(pos == 0){  player2.updateCoin(300000); }    // 출발점
+
+                    else if(pos == 6) { player2.setTurn(0); }       // 랩실
+
                     else if(pos == 12){         //주류 판매
-
+                        System.out.println("원하는 위치 받아야 함");
+                        int want = scan.nextInt();
+                        bc[want].setPassingFee(3);
                     }
-                    else if(pos == 18){         //전동킥보드
-
+                    else if(pos == 18){         //전동킥보드 ( 한 턴 안쉬고 바로 선택 후 이동 )
+                        System.out.println("원하는 위치 받아야 함");
+                        int want = scan.nextInt();
+                        player2.updatePos(want);    // 한 칸씩 할지, 순간이동으로 할지 ( 구현이 가능한지 모르겠음 )
+                        bc[want].checkBoardOwner(player2, player1);
                     }
                 }
+                else
+                    bc[pos].checkBoardOwner(player2, player1);
+
                 player2.setTurn(player2.getTurn()-1);
             }
-
+            victory(player2, bc);
         }
-
-
-
     }
 }
+
+//                if(bc[player1.getPos()].getOwnPlayer().equals("None")){              //도착한 지역의 소유자가 없을 때
+//                    //구매 팝업창 필요
+//                    int buy = 0;
+//                    if(buy == 1){
+//                        bc[pos].buyBoard(player1);
+//                        //지역 색 변화(GUI)
+//                        //부스 설치(GUI)
+//                    }
+//                }
+//                else if(bc[pos].getOwnPlayer().equals(name)){           //도착한 지역의 소유자가 자신(플레이어1)일 때
+//                    //부스 업그레이드 팝업창 필요
+//                    int buy = 0;
+//                    if(buy == 1) {
+//                        bc[pos].updateBooth(player1);
+//                        //부스 업그레이드(GUI)
+//                    }
+//                }
+//                else if(bc[pos].getOwnPlayer().equals(player2.getName())){                                                   //도착한 지역의 소유자가 상대(플레이어2)일 때
+//                    bc[pos].calPassingFee(player1, player2);
+//                    //통행료 지불 팝업창 필요
+//                }
