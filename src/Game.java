@@ -115,15 +115,10 @@ public class Game {
         Scanner scan = new Scanner(System.in);
         new StartPage();
 
-        //로그인(스윙으로 id,pwd 입력받아야함), 플레이어 객체 생성(플레이어 생성자의 매개변수 필요)
-        SignUp signup = new SignUp();
-
         // 지정 후 삭제 필요
-        String id = " ", pwd = " ";         //임시 변수
         String name1 = " ", name2 = " ";    // 임시
 
-
-        signup.Login(id,pwd);           //플레이어1 로그인
+        //signup.Login(id,pwd);           //플레이어1 로그인
         Player player1 = new Player(name1);          //플레이어1 객체 생성
         Player player2 = new Player(name2);          //플레이어2 객체 생성
 

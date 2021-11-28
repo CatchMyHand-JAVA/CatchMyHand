@@ -4,63 +4,66 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;																						                //파일 입출력을 위한 불러오기
 
-public class SignUp extends JFrame {
+public class SignUp extends JFrame implements ActionListener{
     private String id;
     private String pwd;
     private String nickname;
 
-    public SignUp() {
+    JPanel p;
+    JLabel lblid, lblpw, lblname, lblname2;
+    JButton b1, b2;
+    JTextField txtid, txtpw, txtname,txtname2;
+
+    public SignUp(){
         setTitle("굴러라! 코리아텍");
+        setSize(1440, 1024);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-        c.setLayout(null);
 
-        JButton btn = new JButton();
-        btn.setSize(275,75);
-        btn.setLocation(584,724);
-        btn.setBorderPainted(false);
-        btn.setContentAreaFilled(false);
-        c.add(btn);
+        ImageIcon image=new ImageIcon("images/signUPImage.PNG");
 
-        ImageIcon img = new ImageIcon("images/signup.jpg");
-        JLabel imageLabel = new JLabel(img);
+        lblid = new JLabel("ID");
+        lblpw = new JLabel("PW");
+        lblname = new JLabel("NAME");
+        lblname2 = new JLabel("NAME2");
 
-        imageLabel.setSize(1440,1024);
-        imageLabel.setLocation(0,0);
-        c.add(imageLabel);
+        txtid = new JTextField(10);
+        txtpw = new JTextField(10);
+        txtname = new JTextField(10);
+        txtname2 = new JTextField(10);
 
-        setSize(1440,1024);
-        setVisible(true);
+        b1 = new JButton("가입");
+        b2 = new JButton("취소");
 
-        btn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new LogIn();
-                setVisible(false); // 창 안보이게 하기
+        txtid.setBounds(159, 632, 271, 69);
+        txtpw.setBounds(442, 632, 271, 69);
+        txtname.setBounds(727, 632, 271, 69);
+        txtname2.setBounds(1011, 632, 271, 69);
+        b1.setBounds(584,724,271,69);
+
+        JPanel p = new JPanel(){
+            public void paintComponent(Graphics g) {
+                g.drawImage(image.getImage(), 0, 0, null);
+                setOpaque(false); //그림을 표시하게 설정,투명하게 조절
+                super.paintComponent(g);
             }
-        });
-    }
-    
-    // 파일 내에 정보 저장
-    public SignUp(String id, String pwd, String nickname) {												                //생성자를 통해 아이디, 패스워드, 닉네임 받아오기
-        this.id = id;
-        this.pwd = pwd;
-        this.nickname = nickname;
-        File temp = new File("UserInfo.txt");															        //회원 정보 저장을 위한 텍스트 파일 생성
+        };
+        add(lblid);
+        add(txtid);
+        add(lblpw);
+        add(txtpw);
+        add(lblname2);
+        add(lblname);
+        add(txtname);
+        add(txtname2);
+        add(b1);
+        add(b2);
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("UserInfo.txt", true));			//파일입출력을 위한 버퍼 생성
+        add(p);
 
-            writer.write(String.format("%s,%s,%s\n",id,pwd,nickname ));									                //입력받은 아이디, 비밀번호, 닉네임을 텍스트파일에 저장
+        b1.addActionListener(this);
+        b2.addActionListener(this);
 
-            writer.close();																				                //파일 쓰기 종료
-
-        } catch (IOException e) {																		                //입력된 것이 없을 경우 예외 처리
-            e.printStackTrace();
-        }
-    }
-
-    public String getNickname(){            //닉네임을 반환하는 함수
-        return nickname;
+        setVisible(true);
     }
 
     public void Login(String id, String pwd) {
@@ -82,7 +85,55 @@ public class SignUp extends JFrame {
             e.printStackTrace();
         }
     }
+
+    public void actionPerformed(ActionEvent e) {
+        try{
+            String s = null;
+            boolean isOk = false;
+            BufferedWriter bw = new BufferedWriter(new FileWriter("UserInfo.txt", true));
+            BufferedReader br = new BufferedReader(new FileReader("UserInfo.txt"));
+
+
+            if(e.getSource() == b1) {
+//                while((s = br.readLine()) != null) {
+//
+//                    // 아이디 중복
+//                    String[] array = s.split("/");
+//                    if(array[0].equals(txtid.getText())){
+//                        isOk = true;
+//                        break;
+//                    }
+//                }
+                //정보 입력시 중복이 없으면 데이터 보냄
+                if(!isOk) {
+                    bw.write(txtid.getText() + "/");
+                    bw.write(txtpw.getText() + "/");
+                    bw.write(txtname.getText() + "/");
+                    bw.write(txtname2.getText() + "\n");
+                    bw.close();
+
+                    JOptionPane.showMessageDialog(null, "회원가입을 축하합니다.");
+                    new LogIn();
+                    setVisible(false);
+                }else {
+                    JOptionPane.showMessageDialog(null, "회원가입에 실패하였습니다.");
+                }
+
+            }else if(e.getSource() == b2) {
+                txtid.setText("");
+                txtpw.setText("");
+                txtname.setText("");
+            }
+        }catch (IOException  ex){
+            JOptionPane.showMessageDialog(null, "실패");
+        }
+    }
+
+
 }
+
+
+
 
 
 
