@@ -899,7 +899,7 @@ public class LogIn extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1440, 1024);
         setVisible(true);
-        ImageIcon image=new ImageIcon("images/login.jpg");
+        ImageIcon image=new ImageIcon("images/loginPage.png");
 
         tf=new JTextField();
         pf=new JPasswordField();
@@ -907,8 +907,8 @@ public class LogIn extends JFrame implements ActionListener {
         loginButton=new JButton();
         signUpButton =new JButton();
 
-        tf.setBounds(328, 644, 271, 70);
-        pf.setBounds(848, 644, 271, 70);
+        tf.setBounds(344, 654, 250, 50);
+        pf.setBounds(860, 654, 250, 50);
         loginButton.setBounds(328, 722, 271, 70);
         signUpButton.setBounds(848, 722, 271, 70);
 
