@@ -73,7 +73,7 @@ public class Player extends JFrame {
         int dice1 = (int)(Math.random()*6) + 1;
         int dice2 = (int)(Math.random()*6) + 1;
         if ( dice1 == dice2 ) setTurn(getTurn() + 1);
-        JOptionPane.showMessageDialog(null, dice1+dice2);
+//        JOptionPane.showMessageDialog(null, dice1+dice2);
         return dice1 + dice2;
     }
 
