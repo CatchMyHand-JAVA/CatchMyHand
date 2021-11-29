@@ -12,6 +12,11 @@ class GameThread extends Thread {
     private JFrame gamePanel;
     JButton diceBtn = new JButton();
     public static int next = 0;
+    static int dice1 = 0;
+    static int dice2 = 0;
+    static String[] area = {"정문", "대학본부", "다솔관", "예솔관", "함지관", "예지관", "랩실", "해울관", "한울관", "솔빛관"
+    , "은솔관", "청솔관", "주류판매", "참빛관", "산학협력단", "4공학관", "대즐", "다산정보관", "전동킥보드", "3공학관", "1공학관"
+    , "2공학관", "인문경영관","담헌실학관"};
 
     public GameThread(JFrame gp) {
         this.gamePanel = gp;
@@ -243,8 +248,8 @@ class GameThread extends Thread {
 
         diceBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int dice1 = (int)(Math.random()*6) + 1;
-                int dice2 = (int)(Math.random()*6) + 1;
+                dice1 = (int)(Math.random()*6) + 1;
+                dice2 = (int)(Math.random()*6) + 1;
                 String str1 = Integer.toString(dice1);
                 String str2 = Integer.toString(dice2);
                 String str = "주사위1 : " + str1 + ", 주사위2 : " + str2;
@@ -349,8 +354,10 @@ class GameThread extends Thread {
 //                }
 
                 suspend();
-                int dice = player1.rollDice();
+                int dice = player1.rollDice(dice1, dice2);
                 player1.updatePos(dice);
+                pos = player1.getPos();
+                JOptionPane.showMessageDialog(null, area[pos]+ "에 도착");
 
                 if(pos == 0 || pos == 6 || pos == 12 || pos == 18 ) {  // 특수칸 도착 시,
                     if(pos == 0){  player1.updateCoin(300000); }    // 출발점
@@ -437,8 +444,10 @@ class GameThread extends Thread {
 //                }
 
                 suspend();
-                int dice = player1.rollDice();
+                int dice = player1.rollDice(dice1, dice2);
                 player2.updatePos(dice);
+                pos = player2.getPos();
+                JOptionPane.showMessageDialog(null, area[pos]+ "에 도착");
 
                 if (pos == 0 || pos == 6 || pos == 12 || pos == 18 ) {     // 특수칸 도착 시,
                     if(pos == 0){  player2.updateCoin(300000); }    // 출발점
