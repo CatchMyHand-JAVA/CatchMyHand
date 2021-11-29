@@ -19,7 +19,7 @@ public class SignUp extends JFrame implements ActionListener{
         setSize(1440, 1024);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ImageIcon image=new ImageIcon("images/signUPImage.PNG");
+        ImageIcon image=new ImageIcon("images/register.PNG");
 
         lblid = new JLabel("ID");
         lblpw = new JLabel("PW");
@@ -31,9 +31,12 @@ public class SignUp extends JFrame implements ActionListener{
         txtname = new JTextField(10);
         txtname2 = new JTextField(10);
 
-        b1 = new JButton("가입");
+        b1 = new JButton();
         b2 = new JButton("취소");
-
+        b1.setOpaque(false);
+        b1.setBorderPainted(false);
+        b1.setContentAreaFilled(false);
+        b1.setFocusPainted(false);
         txtid.setBounds(159, 632, 271, 69);
         txtpw.setBounds(442, 632, 271, 69);
         txtname.setBounds(727, 632, 271, 69);
