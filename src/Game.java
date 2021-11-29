@@ -172,7 +172,7 @@ public class Game {
 //    public void callAbility() {}
 // 회원가입 플레이어 이름 설정에서 2개의 닉네임 받기
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scan = new Scanner(System.in);
         new StartPage();
 

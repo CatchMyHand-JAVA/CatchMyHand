@@ -32,7 +32,6 @@ public class SignUp extends JFrame implements ActionListener{
         txtname2 = new JTextField(10);
 
         b1 = new JButton("가입");
-        b2 = new JButton("취소");
 
         txtid.setBounds(159, 632, 271, 69);
         txtpw.setBounds(442, 632, 271, 69);
@@ -40,13 +39,14 @@ public class SignUp extends JFrame implements ActionListener{
         txtname2.setBounds(1011, 632, 271, 69);
         b1.setBounds(584,724,271,69);
 
-        JPanel p = new JPanel(){
+        p = new JPanel(){
             public void paintComponent(Graphics g) {
                 g.drawImage(image.getImage(), 0, 0, null);
                 setOpaque(false); //그림을 표시하게 설정,투명하게 조절
                 super.paintComponent(g);
             }
         };
+
         add(lblid);
         add(txtid);
         add(lblpw);
@@ -56,74 +56,87 @@ public class SignUp extends JFrame implements ActionListener{
         add(txtname);
         add(txtname2);
         add(b1);
-        add(b2);
-
         add(p);
 
         b1.addActionListener(this);
-        b2.addActionListener(this);
+
 
         setVisible(true);
     }
 
-    public void Login(String id, String pwd) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("UserInfo.txt"));			                // 파일 입출력을 위한 버퍼 생성
-
-            String line = "";
-            while ((line = reader.readLine()) != null) { 												                // reader에서 라인을 읽은 값이 null일 때(메모장의 마지막 줄일때)
-                String[] temp = line.split(","); 													                // 구분자로 "," 를 사용
-                System.out.printf("%s\t%s\t%s\n", temp[0], temp[1], temp[2]);
-                if(id.equals(temp[0]) && pwd.equals(temp[1])){          //전달받은 id와 pwd가 일치하면
-                    nickname = temp[2];         //nickname에 파일에서 읽어온 이름을 저장
-                    break;          //while문 멈춤
-                }
-            }
-            System.out.println("아이디와 비밀번호를 확인해주세요");            //파일의 끝까지 탐색했지만 일치하는 경우가 없을 때
-            reader.close();																				                // 파일 읽기 종료
-        } catch (Exception e) {																			                // 읽어 온 것이 없을 때 예외 처리
-            e.printStackTrace();
-        }
-    }
 
     public void actionPerformed(ActionEvent e) {
         try{
             String s = null;
-            boolean isOk = false;
+            boolean preHere = false;
             BufferedWriter bw = new BufferedWriter(new FileWriter("UserInfo.txt", true));
             BufferedReader br = new BufferedReader(new FileReader("UserInfo.txt"));
 
+            String id = txtid.getText();
+            String pw = txtpw.getText();
+            String name1 = txtname.getText();
+            String name2 = txtname2.getText();
 
-            if(e.getSource() == b1) {
-//                while((s = br.readLine()) != null) {
-//
-//                    // 아이디 중복
-//                    String[] array = s.split("/");
-//                    if(array[0].equals(txtid.getText())){
-//                        isOk = true;
-//                        break;
-//                    }
-//                }
+
+            if(e.getSource() == b1) {  // 회원가입 버튼 눌렀을 시,
+                while((s = br.readLine()) != null) {
+                    // 아이디 중복
+                    String[] userInfo = (s.split("/"));
+                    System.out.println(userInfo[0]);
+
+                    if(userInfo[0].equals(id)){                         // id가 존재
+                        System.out.println(1111111);
+                        JOptionPane.showMessageDialog(null, "이미 존재하는 ID 입니다.");
+                        preHere = true;         // id가 존재함
+                        break;                  // 반복 종료
+                    }
+                    else {
+                        if (userInfo[1].equals(pw)){                    // pw가 존재
+                            JOptionPane.showMessageDialog(null, "이미 존재하는 PW 입니다.");
+                            preHere = true;         // id가 존재함
+                            break;                  // 반복 종료
+                        }
+                        else{
+                            if (userInfo[2].equals(name1)){             // name1이 존재
+                                JOptionPane.showMessageDialog(null, "이미 존재하는 NAME1 입니다.");
+                                preHere = true;         // id가 존재함
+                                break;                  // 반복 종료
+                            }
+                            else{
+                                if (userInfo[3].equals(name2)){         // name2가 존재
+                                    JOptionPane.showMessageDialog(null, "이미 존재하는 NAME2 입니다.");
+                                    preHere = true;         // name2가 존재함
+                                    break;                  // 반복 종료
+                                }
+                                else{
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                br.close();
                 //정보 입력시 중복이 없으면 데이터 보냄
-                if(!isOk) {
-                    bw.write(txtid.getText() + "/");
-                    bw.write(txtpw.getText() + "/");
-                    bw.write(txtname.getText() + "/");
-                    bw.write(txtname2.getText() + "\n");
+                if(!preHere) {                  // id가 UserInfo.txt파일에 없을 시,
+                    bw.write(String.format("%s/%s/%s/%s\n", id, pw, name1, name2));
                     bw.close();
 
                     JOptionPane.showMessageDialog(null, "회원가입을 축하합니다.");
                     new LogIn();
                     setVisible(false);
-                }else {
+                }
+                else {
                     JOptionPane.showMessageDialog(null, "회원가입에 실패하였습니다.");
                 }
 
-            }else if(e.getSource() == b2) {
-                txtid.setText("");
-                txtpw.setText("");
-                txtname.setText("");
             }
+//            else if(e.getSource() == b2) {
+//                txtid.setText("");
+//                txtpw.setText("");
+//                txtname.setText("");
+//                setVisible(false);
+//            }
         }catch (IOException  ex){
             JOptionPane.showMessageDialog(null, "실패");
         }

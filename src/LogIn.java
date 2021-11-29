@@ -3,13 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 //331, 646            //271, 69
 
 public class LogIn extends JFrame implements ActionListener {
-    JTextField tf;
-    JPasswordField pf;
+    JTextField id;
+    JPasswordField pw;
     JButton loginButton, signUpButton;
 
     public LogIn() {
@@ -19,30 +20,31 @@ public class LogIn extends JFrame implements ActionListener {
         setVisible(true);
         ImageIcon image=new ImageIcon("images/login.PNG");
 
-        tf=new JTextField();
-        pf=new JPasswordField();
+
+
+        id = new JTextField();
+        pw = new JPasswordField();
 
         loginButton=new JButton("로그인");
         signUpButton =new JButton("회원가입");
 
-        tf.setBounds(331, 646, 271, 69);
-        pf.setBounds(848, 646, 271, 69);
+        id.setBounds(331, 646, 271, 69);
+        pw.setBounds(848, 646, 271, 69);
         loginButton.setBounds(331, 746, 271, 69);
         signUpButton.setBounds(848, 746, 271, 69);
 
-        JPanel p=new JPanel(){
+        JPanel p = new JPanel(){
             public void paintComponent(Graphics g) {
+                super.paintComponent(g);
                 g.drawImage(image.getImage(), 0, 0, null);
                 setOpaque(false); //그림을 표시하게 설정,투명하게 조절
-                super.paintComponent(g);
-
             }
-
         };
+
         add(loginButton);
         add(signUpButton);
-        add(tf);
-        add(pf);
+        add(id);
+        add(pw);
         add(p);
 
         setSize(1440, 1024);
@@ -58,57 +60,54 @@ public class LogIn extends JFrame implements ActionListener {
     }
 
 
-    @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == loginButton) { //로그인 버튼 클릭시
-            String id=tf.getText(); //입력한 값을 갖고와서
-            if (id.trim().length() < 1) { //입력이 안됐다면
+            String userId = id.getText(); //입력한 값을 갖고와서
+            if (userId.trim().length() < 1) { //입력이 안됐다면
                 JOptionPane.showMessageDialog(this, "ID를 입력하세요.");
-                tf.requestFocus(); //focus 올려줌
+                id.requestFocus(); //focus 올려줌
                 return;
             }
-            String pwd=String.copyValueOf(pf.getPassword());
-            if (pwd.trim().length() < 1) { //입력이 안됐다면
+            String userPw=String.copyValueOf(pw.getPassword());
+            if (userPw.trim().length() < 1) { //입력이 안됐다면
                 JOptionPane.showMessageDialog(this, "비밀번호를 입력하세요.");
-                tf.requestFocus(); //focus 올려줌
+                pw.requestFocus(); //focus 올려줌
                 return;
             }
-
-            String str;
 
             BufferedReader reader = null;
+            String str = null;
             try {
                 reader = new BufferedReader(new FileReader("UserInfo.txt"));
-                while(true) {
-                    str = reader.readLine();
-                    String[] info = str.split("/");
+                while((str = reader.readLine()) != null)  {
+                    String[] userInfo = str.split("/");
+                    System.out.println(userInfo[0] + " " + userInfo[1]);
                     //입력이 완료 → 처리
-                    if (id.equalsIgnoreCase(info[0])) { //equals의 사용 예시
-                        if (pwd.equals(info[1])) {
-                            JOptionPane.showMessageDialog(this, id + "님 로그인 되었습니다.");
+                    if (userId.equals(userInfo[0])) {   // ID가 같을 시,
+                        if (userId.equals(userInfo[1])) {
+                            JOptionPane.showMessageDialog(this, userInfo[3] +", " + userInfo[4] + "님 로그인 되었습니다.");
                             GamePage page = new GamePage();
                             setVisible(false);
-//                            new Game();
                             break;
-                        } else {
+                        }
+                        else{                           // PW가 다를 시,
                             JOptionPane.showMessageDialog(this, "패스워드가 틀립니다.");
-                            pf.setText("");
-                            pf.requestFocus();
+//                            pw.setText("");
+//                            pw.requestFocus();
                         }
-
-                    } else {
-                        if (str == null) {
-                            JOptionPane.showMessageDialog(this, "존재하지 않는 ID입니다.");
-                            tf.setText("");
-                            pf.setText("");
-                            tf.requestFocus();
-                            break;
-                        }
+                    }
+                    else{                               // ID가 다를 시,
+                        JOptionPane.showMessageDialog(this, "존재하지 않는 ID 입니다.");
+                        id.setText("");
+                        pw.setText("");
+                        id.requestFocus();
+                        break;
                     }
                 }
                 reader.close();
-            } catch (Exception r) {
+                }
+
+            catch (Exception r) {
                 r.printStackTrace();
             }
 
@@ -118,105 +117,3 @@ public class LogIn extends JFrame implements ActionListener {
     }
 
 }
-
-
-
-
-
-//
-//    JLabel Id,Pw;
-//    JTextField Tf;
-//    JPasswordField Pf;
-//    JLabel poster =new JLabel();
-//    private Font f1, f2;
-//
-//    final String ID ="admin";
-//    final String PWD = "1234";
-//
-//
-//    public LogIn() {
-//        setTitle("굴러라! 코리아텍");
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setSize(1440,1024);
-//        setVisible(true);
-//        f1 = new Font("DungGeunMo.woff",Font.PLAIN, 15);
-//        Container c = getContentPane();  //프레임의 컨텐트팬을 알아낸다.
-//        c.setLayout(null);
-//
-//
-//
-//
-////        //배경 이미지
-////        ImageIcon img = new ImageIcon("images/login.PNG");
-////        JLabel imageLabel = new JLabel(img);
-////
-////        imageLabel.setSize(1440,1024);
-////        imageLabel.setLocation(0,0);
-////        c.add(imageLabel);
-//
-//
-//        Id=new JLabel("ID");
-//        Pw=new JLabel("PW");
-//        Id.setFont(f1);
-//
-//        Tf =new JTextField();
-//        Pf = new JPasswordField();
-//        Id.setBounds(10,15,30,30);
-//        Tf.setBounds(45,15,150,30);
-//        Pw.setBounds(10,50,30,30);
-//        Pf.setBounds(45,50,150,30);
-//
-//        //로그인 버튼
-//        JButton login = new JButton();
-//        login.setSize(275,75);
-//        login.setLocation(328,724);
-//        login.setBackground(Color.white);
-////        login.setBorderPainted(false);
-////        login.setContentAreaFilled(false);
-//        c.add(login);
-//
-//        //회원가입 버튼
-//        JButton signUp = new JButton("회원가입");
-//        signUp.setSize(275,75);
-//        signUp.setLocation(848,724);
-//        signUp.setBackground(Color.white);
-////        signUp.setBorderPainted(false);
-////        signUp.setContentAreaFilled(false);
-//        c.add(signUp);
-//
-//
-//
-//        JPanel p=new JPanel();
-//        p.add(login);
-//        p.setBounds(10,90,195,35);
-//        add(Id);
-//        add(Tf);
-//        add(Pw);
-//        add(Pf);
-//        add(p);
-//        poster.setBounds(50,125,300,250); //setBounds(x, y, width, height)
-//        add(poster);
-//        setSize(1024,768);
-//        setVisible(true);
-//        setDefaultCloseOperation(EXIT_ON_CLOSE); //창 종료시 계속실행 끔(빨간□)
-//        //Integer.MAX_VALUE; //21억 4천얼마 → 상수
-//        login.addActionListener((ActionListener) this); //로그인
-//
-//
-//        signUp.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                new SignUp();
-//                setVisible(false);
-//            }
-//        });
-//
-//        login.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                new Game();
-//                setVisible(false);
-//            }
-//        });
-//    }
-//}
-//
-//
