@@ -8,6 +8,7 @@ import java.io.FileReader;
 //331, 646            //271, 69
 
 public class LogIn extends JFrame implements ActionListener {
+
     JTextField tf;
     JPasswordField pf;
     JButton loginButton, signUpButton;
@@ -17,18 +18,29 @@ public class LogIn extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1440, 1024);
         setVisible(true);
-        ImageIcon image=new ImageIcon("images/login.PNG");
+        ImageIcon image=new ImageIcon("images/login.jpg");
 
         tf=new JTextField();
         pf=new JPasswordField();
 
-        loginButton=new JButton("로그인");
-        signUpButton =new JButton("회원가입");
+        loginButton=new JButton();
+        signUpButton =new JButton();
 
-        tf.setBounds(331, 646, 271, 69);
-        pf.setBounds(848, 646, 271, 69);
-        loginButton.setBounds(331, 746, 271, 69);
-        signUpButton.setBounds(848, 746, 271, 69);
+        tf.setBounds(328, 644, 271, 70);
+        pf.setBounds(848, 644, 271, 70);
+        loginButton.setBounds(328, 722, 271, 70);
+        signUpButton.setBounds(848, 722, 271, 70);
+
+        loginButton.setOpaque(false);
+        loginButton.setBorderPainted(false);
+        loginButton.setContentAreaFilled(false);
+        loginButton.setFocusPainted(false);
+
+        signUpButton.setOpaque(false);
+        signUpButton.setBorderPainted(false);
+        signUpButton.setContentAreaFilled(false);
+        signUpButton.setFocusPainted(false);
+
 
         JPanel p=new JPanel(){
             public void paintComponent(Graphics g) {

@@ -12,12 +12,13 @@ class StartPage extends JFrame {
         Container c = getContentPane();
         c.setLayout(null);
 
-        JButton btn = new JButton();
+        JButton btn = new JButton("클릭하세요");
+
         btn.setSize(350, 100);
-        btn.setLocation(545, 689);
+        btn.setLocation(510, 550);
         c.add(btn);
 
-        ImageIcon img = new ImageIcon("images/start.jpg");
+        ImageIcon img = new ImageIcon("images/startPage.png");
         JLabel imageLabel = new JLabel(img);
 
         imageLabel.setSize(1440, 1024);
@@ -38,9 +39,16 @@ class StartPage extends JFrame {
     }
 }
 
-class GamePage extends JFrame {
+class GamePage extends JFrame{
+
     public GamePage() {
+        setTitle("굴러라! 코리아텍");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1440, 1024);
+        setVisible(true);
+
+        Container c = getContentPane();
+        c.setLayout(null);
         //jp.setPreferredSize(new Dimension(1440, 1024));
         JButton[] btn = new JButton[24];
         JButton diceBtn = new JButton();
@@ -52,7 +60,6 @@ class GamePage extends JFrame {
         diceBtn.setBorderPainted(false);
         diceBtn.setBounds(1061, 556, 169, 60);
         add(diceBtn);
-
         for(int i = 0; i<24; i++) {
             btn[i] = new JButton();
             btn[i].setContentAreaFilled(false);
@@ -85,24 +92,172 @@ class GamePage extends JFrame {
         btn[22].setBounds(731, 547, 74, 74);
         btn[23].setBounds(731, 624, 74, 74);
         add(jp);
-        setVisible(true);
 
 
-        setTitle("굴러라! 코리아텍");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-        c.setLayout(null);
+        ImageIcon image1 =new ImageIcon("images/주사위 1.png");
+        JLabel buildImage1 =new JLabel(image1);
+        buildImage1.setSize(248, 238);
+
+        buildImage1.setLocation(313,389);
+        c.add(buildImage1);
+        add(buildImage1);
+
 
         ImageIcon img = new ImageIcon("images/gamestart.png");
         JLabel imageLabel = new JLabel(img);
 
         imageLabel.setSize(1440, 1024);
         imageLabel.setLocation(0, 0);
+        c.add(imageLabel);
         add(imageLabel);
-        add(jp);
 
-        setSize(1440, 1024);
-        setVisible(true);
+
+        btn[1].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                String str = "인경관"+"4400원";
+
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[2].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "4공학관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[3].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "3공학관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[4].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "2공학관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[5].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "1공학관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[7].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "다솔관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[8].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "예솔관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[9].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "예지관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[10].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "함지관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+
+        btn[11].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "해울관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[13].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "산업혁렵단";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[14].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "대즐";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[15].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "담헌";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[16].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "다산";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[17].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "대학본부";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[19].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "은솔관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+
+        btn[20].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "청솔관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[21].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "한울관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[22].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "참빛관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+        btn[23].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String str = "솔빛관";
+                JOptionPane.showMessageDialog(null, str);
+            }
+
+        });
+
+
 
         diceBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -113,8 +268,12 @@ class GamePage extends JFrame {
                 String str = "주사위1 : " + str1 + ", 주사위2 : " + str2;
                 JOptionPane.showMessageDialog(null, str);
             }
+
         });
     }
+
+
+
 }
 
 
