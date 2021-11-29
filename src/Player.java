@@ -48,7 +48,7 @@ public class Player extends JFrame {
     }
     public boolean isCallAbility() {        // 특수능력을 사용유무
         int choice = JOptionPane.showConfirmDialog(null, "특수능력을 사용하시겠습니까?"
-        , "Confirm", JOptionPane.YES_NO_OPTION);
+                , "Confirm", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "특수능력사용");
             abilityNumber = 0;
