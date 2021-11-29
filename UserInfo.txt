@@ -1,2 +1,5 @@
-위건/1234/WeGeon/위건천재
-위바보/1235/We/위건바보
+id/pwd/name1/name2
+1/1/1/1
+id1/pwd1/name/namename
+22/22/22/22
+9/9/9/9
