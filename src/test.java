@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class test extends JFrame implements ActionListener{
-
+    boolean open = false;
 
     public test() {
         JFrame f = new JFrame();
@@ -38,14 +38,17 @@ public class test extends JFrame implements ActionListener{
         endPage.setVisible(false);
 
         btnNext.addActionListener(e -> {
-            endPage.setVisible(true);
-            startPage.setVisible(false);
+            if(open == false) {
+                endPage.setVisible(true);
+                open=true;
+            }
+            else {
+                endPage.setVisible(false);
+                open=false;
+            }
+
         });
 
-        btnBefore.addActionListener(e -> {
-            endPage.setVisible(false);
-            startPage.setVisible(true);
-        });
     }
 
 
