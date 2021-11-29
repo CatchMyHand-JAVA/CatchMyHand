@@ -2,13 +2,53 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Scanner;
 
+class DiceEvent implements MouseListener {
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        GameThread.first.setFont(new Font("굴림",Font.PLAIN,15));
+        GameThread.second.setFont(new Font("굴림",Font.PLAIN,15));
+
+        GameThread.first.setText("주사위 "+"\n"+"굴리는중");
+        GameThread.second.setText("주사위 "+"\n"+"굴리는중");
+    }
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        GameThread.first.setFont(new Font("굴림",Font.PLAIN,30));
+        GameThread.second.setFont(new Font("굴림",Font.PLAIN,30));
+
+        GameThread.first.setText((int)(Math.random()*6)+1+"");
+        GameThread.second.setText((int)(Math.random()*6)+1+"");
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
+    }
+}
+
 //331, 646            //271, 69
 class GameThread extends Thread {
+    static boolean open =false;
+    static JLabel first;  //첫번째 주사위
+    static JLabel second; //두번째 주사위
     private JFrame gamePanel;
     JButton diceBtn = new JButton();
     public static int next = 0;
@@ -21,11 +61,11 @@ class GameThread extends Thread {
     public GameThread(JFrame gp) {
         this.gamePanel = gp;
         gamePanel.setSize(1440, 1024);
-        //jp.setPreferredSize(new Dimension(1440, 1024));
         JButton[] btn = new JButton[24];
-//        JButton diceBtn = new JButton();
         JPanel jp = new JPanel();
         jp.setLayout(null);
+
+        gamePanel.setVisible(true);
 
         diceBtn.setContentAreaFilled(false);
         diceBtn.setOpaque(false);
@@ -33,6 +73,14 @@ class GameThread extends Thread {
         diceBtn.setBounds(1061, 556, 169, 60);
         gamePanel.add(diceBtn);
 
+        DiceEvent diceEvent =new DiceEvent();  //마우스 리스터 객체 생성
+        jp.addMouseListener(diceEvent);   //MouseListener 리스너 등록
+        first = new JLabel("클릭"+"",SwingConstants.CENTER);
+        second = new JLabel("클릭"+"",SwingConstants.CENTER);
+
+
+        jp.add(first);
+        jp.add(second);
         for(int i = 0; i<24; i++) {
             btn[i] = new JButton();
             btn[i].setContentAreaFilled(false);
@@ -67,195 +115,550 @@ class GameThread extends Thread {
         gamePanel.add(jp);
 
 
-        gamePanel.setTitle("굴러라! 코리아텍");
-        gamePanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = gamePanel.getContentPane();
-        c.setLayout(null);
+        ImageIcon image1 =new ImageIcon("images/1.대학본부.png");
+        JLabel buildImage1 =new JLabel(image1);
+        buildImage1.setSize(248, 238);
+        buildImage1.setLocation(313,389);
+        gamePanel.add(buildImage1);
+        buildImage1.setVisible(false);
 
-        ImageIcon img = new ImageIcon("images/gamestart.png");
+        ImageIcon image2 =new ImageIcon("images/2.다솔관.png");
+        JLabel buildImage2 =new JLabel(image2);
+        buildImage2.setSize(248, 238);
+        buildImage2.setLocation(313,389);
+        gamePanel.add(buildImage2);
+        buildImage2.setVisible(false);
+
+        ImageIcon image3 =new ImageIcon("images/3.예솔관.png");
+        JLabel buildImage3 =new JLabel(image3);
+        buildImage3.setSize(248, 238);
+        buildImage3.setLocation(313,389);
+        gamePanel.add(buildImage3);
+        buildImage3.setVisible(false);
+
+        ImageIcon image4 =new ImageIcon("images/4.함지관.png");
+        JLabel buildImage4 =new JLabel(image4);
+        buildImage4.setSize(248, 238);
+        buildImage4.setLocation(313,389);
+        gamePanel.add(buildImage4);
+        buildImage4.setVisible(false);
+
+        ImageIcon image5 =new ImageIcon("images/5.예지관.png");
+        JLabel buildImage5 =new JLabel(image5);
+        buildImage5.setSize(248, 238);
+        buildImage5.setLocation(313,389);
+        gamePanel.add(buildImage5);
+        buildImage5.setVisible(false);
+
+        ImageIcon image7 =new ImageIcon("images/7.해울관.png");
+        JLabel buildImage7 =new JLabel(image7);
+        buildImage7.setSize(248, 238);
+        buildImage7.setLocation(313,389);
+        gamePanel.add(buildImage7);
+        buildImage7.setVisible(false);
+
+        ImageIcon image8 =new ImageIcon("images/8.한울관.png");
+        JLabel buildImage8 =new JLabel(image8);
+        buildImage8.setSize(248, 238);
+        buildImage8.setLocation(313,389);
+        gamePanel.add(buildImage8);
+        buildImage8.setVisible(false);
+
+        ImageIcon image9 =new ImageIcon("images/9.솔빛관.png");
+        JLabel buildImage9 =new JLabel(image9);
+        buildImage9.setSize(248, 238);
+        buildImage9.setLocation(313,389);
+        gamePanel.add(buildImage9);
+        buildImage9.setVisible(false);
+
+        ImageIcon image10 =new ImageIcon("images/10.은솔관.png");
+        JLabel buildImage10 =new JLabel(image10);
+        buildImage10.setSize(248, 238);
+        buildImage10.setLocation(313,389);
+        gamePanel.add(buildImage10);
+        buildImage10.setVisible(false);
+
+        ImageIcon image11 =new ImageIcon("images/11.청솔관.png");
+        JLabel buildImage11 =new JLabel(image11);
+        buildImage11.setSize(248, 238);
+        buildImage11.setLocation(313,389);
+        gamePanel.add(buildImage11);
+        buildImage11.setVisible(false);
+
+        ImageIcon image13 =new ImageIcon("images/13.참빛관.png");
+        JLabel buildImage13 =new JLabel(image13);
+        buildImage13.setSize(248, 238);
+        buildImage13.setLocation(313,389);
+        gamePanel.add(buildImage13);
+        buildImage13.setVisible(false);
+
+        ImageIcon image14 =new ImageIcon("images/14.산업협력단.png");
+        JLabel buildImage14 =new JLabel(image14);
+        buildImage14.setSize(248, 238);
+        buildImage14.setLocation(313,389);
+        gamePanel.add(buildImage14);
+        buildImage14.setVisible(false);
+
+        ImageIcon image15 =new ImageIcon("images/15.4공.png");
+        JLabel buildImage15 =new JLabel(image15);
+        buildImage15.setSize(248, 238);
+        buildImage15.setLocation(313,389);
+        gamePanel.add(buildImage15);
+        buildImage15.setVisible(false);
+
+        ImageIcon image16 =new ImageIcon("images/16.대즐.png");
+        JLabel buildImage16 =new JLabel(image16);
+        buildImage16.setSize(248, 238);
+        buildImage16.setLocation(313,389);
+        gamePanel.add(buildImage16);
+        buildImage16.setVisible(false);
+
+        ImageIcon image17 =new ImageIcon("images/17.다산.png");
+        JLabel buildImage17 =new JLabel(image17);
+        buildImage17.setSize(248, 238);
+        buildImage17.setLocation(313,389);
+        gamePanel.add(buildImage17);
+        buildImage17.setVisible(false);
+
+        ImageIcon image19 =new ImageIcon("images/19.3공.png");
+        JLabel buildImage19 =new JLabel(image19);
+        buildImage19.setSize(248, 238);
+        buildImage19.setLocation(313,389);
+        gamePanel.add(buildImage19);
+        buildImage19.setVisible(false);
+
+        ImageIcon image20 =new ImageIcon("images/20.1공.png");
+        JLabel buildImage20 =new JLabel(image20);
+        buildImage20.setSize(248, 238);
+        buildImage20.setLocation(313,389);
+        gamePanel.add(buildImage20);
+        buildImage20.setVisible(false);
+
+        ImageIcon image21 =new ImageIcon("images/21.2공.png");
+        JLabel buildImage21 =new JLabel(image21);
+        buildImage21.setSize(248, 238);
+        buildImage21.setLocation(313,389);
+        gamePanel.add(buildImage21);
+        buildImage21.setVisible(false);
+
+        ImageIcon image22 =new ImageIcon("images/22.인경관.png");
+        JLabel buildImage22 =new JLabel(image22);
+        buildImage22.setSize(248, 238);
+        buildImage22.setLocation(313,389);
+        gamePanel.add(buildImage22);
+        buildImage22.setVisible(false);
+
+        ImageIcon image23 =new ImageIcon("images/23.담헌.png");
+        JLabel buildImage23 =new JLabel(image23);
+        buildImage23.setSize(248, 238);
+        buildImage23.setLocation(313,389);
+        gamePanel.add(buildImage23);
+        buildImage23.setVisible(false);
+
+        ImageIcon dice1_1 =new ImageIcon("images/주사위 1.png");
+        JLabel diceimage1 =new JLabel(dice1_1);
+        diceimage1.setSize(100, 100);
+        diceimage1.setLocation(1050,460);
+        gamePanel.add(diceimage1);
+        diceimage1.setVisible(false);
+
+        ImageIcon dice1_2 =new ImageIcon("images/주사위 2.png");
+        JLabel diceimage2 =new JLabel(dice1_2);
+        diceimage2.setSize(100, 100);
+        diceimage2.setLocation(1050,460);
+        gamePanel.add(diceimage2);
+        diceimage2.setVisible(false);
+
+        ImageIcon dice1_3 =new ImageIcon("images/주사위 3.png");
+        JLabel diceimage3 =new JLabel(dice1_3);
+        diceimage3.setSize(100, 100);
+        diceimage3.setLocation(1050,460);
+        gamePanel.add(diceimage3);
+        diceimage3.setVisible(false);
+
+        ImageIcon dice1_4 =new ImageIcon("images/주사위 4.png");
+        JLabel diceimage4 =new JLabel(dice1_4);
+        diceimage4.setSize(100, 100);
+        diceimage4.setLocation(1050,460);
+        gamePanel.add(diceimage4);
+        diceimage4.setVisible(false);
+
+        ImageIcon dice1_5 =new ImageIcon("images/주사위 5.png");
+        JLabel diceimage5 =new JLabel(dice1_5);
+        diceimage5.setSize(100, 100);
+        diceimage5.setLocation(1050,460);
+        gamePanel.add(diceimage5);
+        diceimage5.setVisible(false);
+
+        ImageIcon dice1_6 =new ImageIcon("images/주사위 6.png");
+        JLabel diceimage6 =new JLabel(dice1_6);
+        diceimage6.setSize(100, 100);
+        diceimage6.setLocation(1050,460);
+        gamePanel.add(diceimage6);
+        diceimage6.setVisible(false);
+
+        ImageIcon dice2_1 =new ImageIcon("images/주사위 1.png");
+        JLabel diceimage2_1 =new JLabel(dice2_1);
+        diceimage2_1.setSize(100, 100);
+        diceimage2_1.setLocation(1150,460);
+        gamePanel.add(diceimage2_1);
+        diceimage2_1.setVisible(false);
+
+        ImageIcon dice2_2 =new ImageIcon("images/주사위 2.png");
+        JLabel diceimage2_2 =new JLabel(dice2_2);
+        diceimage2_2.setSize(100, 100);
+        diceimage2_2.setLocation(1150,460);
+        gamePanel.add(diceimage2_2);
+        diceimage2_2.setVisible(false);
+
+        ImageIcon dice2_3 =new ImageIcon("images/주사위 3.png");
+        JLabel diceimage2_3 =new JLabel(dice2_3);
+        diceimage2_3.setSize(100, 100);
+        diceimage2_3.setLocation(1150,460);
+        gamePanel.add(diceimage2_3);
+        diceimage2_3.setVisible(false);
+
+        ImageIcon dice2_4 =new ImageIcon("images/주사위 4.png");
+        JLabel diceimage2_4 =new JLabel(dice2_4);
+        diceimage2_4.setSize(100, 100);
+        diceimage2_4.setLocation(1150,460);
+        gamePanel.add(diceimage2_4);
+        diceimage2_4.setVisible(false);
+
+        ImageIcon dice2_5 =new ImageIcon("images/주사위 5.png");
+        JLabel diceimage2_5 =new JLabel(dice2_5);
+        diceimage2_5.setSize(100, 100);
+        diceimage2_5.setLocation(1150,460);
+        gamePanel.add(diceimage2_5);
+        diceimage2_5.setVisible(false);
+
+        ImageIcon dice2_6 =new ImageIcon("images/주사위 6.png");
+        JLabel diceimage2_6 =new JLabel(dice2_6);
+        diceimage2_6.setSize(100, 100);
+        diceimage2_6.setLocation(1150,460);
+        gamePanel.add(diceimage2_6);
+        diceimage2_6.setVisible(false);
+
+
+
+        ImageIcon img = new ImageIcon("images/메인보드.png");
         JLabel imageLabel = new JLabel(img);
 
         imageLabel.setSize(1440, 1024);
         imageLabel.setLocation(0, 0);
         gamePanel.add(imageLabel);
-        gamePanel.add(jp);
 
-        gamePanel.setSize(1440, 1024);
-        gamePanel.setVisible(true);
-
-        ImageIcon image1 =new ImageIcon("images/주사위 1.png");
-        JLabel buildImage1 =new JLabel(image1);
-        buildImage1.setSize(248, 238);
-
-        buildImage1.setLocation(313,389);
-        c.add(buildImage1);
-        gamePanel.add(buildImage1);
-
-
-        ImageIcon img2 = new ImageIcon("images/gamestart.png");
-        JLabel imageLabel2 = new JLabel(img2);
-
-        imageLabel2.setSize(1440, 1024);
-        imageLabel2.setLocation(0, 0);
-        c.add(imageLabel2);
-        gamePanel.add(imageLabel2);
 
 
         btn[1].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                String str = "인경관"+"4400원";
-
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage1.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage1.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[2].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "4공학관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage2.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage2.setVisible(false);
+                    open=false;
+                }
+
             }
 
         });
         btn[3].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "3공학관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage3.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage3.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[4].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "2공학관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage4.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage4.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[5].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "1공학관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage5.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage5.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[7].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "다솔관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage7.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage7.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[8].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "예솔관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage8.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage8.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[9].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "예지관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage9.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage9.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[10].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "함지관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage10.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage10.setVisible(false);
+                    open=false;
+                }
             }
 
         });
 
         btn[11].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "해울관";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage11.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage11.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[13].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "산업혁렵단";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage13.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage13.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[14].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "대즐";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage14.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage14.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[15].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "담헌";
-                JOptionPane.showMessageDialog(null, str);
+                if(open == false) {
+                    buildImage15.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage15.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[16].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "다산";
-                JOptionPane.showMessageDialog(null, str);
+                if(!open) {
+                    buildImage16.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage16.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[17].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "대학본부";
-                JOptionPane.showMessageDialog(null, str);
+                if(!open) {
+                    buildImage17.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage17.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[19].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "은솔관";
-                JOptionPane.showMessageDialog(null, str);
+                if(!open) {
+                    buildImage19.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage19.setVisible(false);
+                    open=false;
+                }
             }
 
         });
 
         btn[20].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "청솔관";
-                JOptionPane.showMessageDialog(null, str);
+                if(!open) {
+                    buildImage20.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage20.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[21].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "한울관";
-                JOptionPane.showMessageDialog(null, str);
+                if(!open) {
+                    buildImage21.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage21.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[22].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "참빛관";
-                JOptionPane.showMessageDialog(null, str);
+                if(!open) {
+                    buildImage22.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage22.setVisible(false);
+                    open=false;
+                }
             }
 
         });
         btn[23].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String str = "솔빛관";
-                JOptionPane.showMessageDialog(null, str);
+                if(!open) {
+                    buildImage23.setVisible(true);
+                    open=true;
+                }
+                else {
+                    buildImage23.setVisible(false);
+                    open=false;
+                }
             }
 
         });
 
+
+
         diceBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                diceimage1.setVisible(false);
+                diceimage2.setVisible(false);
+                diceimage3.setVisible(false);
+                diceimage4.setVisible(false);
+                diceimage5.setVisible(false);
+                diceimage6.setVisible(false);
+                diceimage2_1.setVisible(false);
+                diceimage2_2.setVisible(false);
+                diceimage2_3.setVisible(false);
+                diceimage2_4.setVisible(false);
+                diceimage2_5.setVisible(false);
+                diceimage2_6.setVisible(false);
+
                 dice1 = (int)(Math.random()*6) + 1;
                 dice2 = (int)(Math.random()*6) + 1;
                 String str1 = Integer.toString(dice1);
                 String str2 = Integer.toString(dice2);
                 String str = "주사위1 : " + str1 + ", 주사위2 : " + str2;
-                JOptionPane.showMessageDialog(null, str);
                 resume();
+
+                switch (str1) {
+                    case "1" : diceimage1.setVisible(true);
+                    case "2" : diceimage2.setVisible(true);
+                    case "3" : diceimage3.setVisible(true);
+                    case "4" : diceimage4.setVisible(true);
+                    case "5" : diceimage5.setVisible(true);
+                    case "6" : diceimage6.setVisible(true);
+                }
+
+                switch (str2) {
+                    case "1" : diceimage2_1.setVisible(true);
+                    case "2" : diceimage2_2.setVisible(true);
+                    case "3" : diceimage2_3.setVisible(true);
+                    case "4" : diceimage2_4.setVisible(true);
+                    case "5" : diceimage2_5.setVisible(true);
+                    case "6" : diceimage2_6.setVisible(true);
+                }
+
+
             }
+
         });
     }
 
