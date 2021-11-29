@@ -1,6 +1,7 @@
+import javax.swing.*;
 import java.util.Scanner;
 
-public class Player {
+public class Player extends JFrame {
     // 기본 필드
     private String name;
     private int abilityNumber;
@@ -46,10 +47,10 @@ public class Player {
         this.pos = pos;
     }
     public boolean isCallAbility() {        // 특수능력을 사용유무
-        // Swing 구현 필수 (팝업 plz)
-        Scanner scan = new Scanner(System.in);
-        char user_choice = scan.next().charAt(0);
-        if (user_choice == 'Y') {
+        int choice = JOptionPane.showConfirmDialog(null, "특수능력을 사용하시겠습니까?"
+        , "Confirm", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "특수능력사용");
             abilityNumber = 0;
             return true;
         }
@@ -72,41 +73,12 @@ public class Player {
         int dice1 = (int)(Math.random()*6) + 1;
         int dice2 = (int)(Math.random()*6) + 1;
         if ( dice1 == dice2 ) setTurn(getTurn() + 1);
+        JOptionPane.showMessageDialog(null, dice1+dice2);
         return dice1 + dice2;
     }
 
     /* 특수능력 메소드 */
     // 특수능력 호출 메소드
-    void callAbility(int abilityNumber)	{
-        switch(abilityNumber) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
-            case 10:
-                break;
-            case 11:
-                break;
-            case 12:
-                break;
-            default:
-                break;
-        }
-    }
 
     void teleport(int wantPos)   {
         int move = 0;
